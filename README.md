@@ -71,16 +71,12 @@
 
 ## 機能の実装方針
 
-| 機能 / カテゴリ        | 技術                               |
+| 機能 / カテゴリ | 技術 |
 | ---------------------- | ---------------------------------- |
-| バックエンド   　　　　　　　　| Ruby on Rails 7.2.2.1 / Ruby 3.3.8 |
-| フロントエンド         | JavaScript / Stimulus              |
-| CSS フレームワーク     | Tailwind CSS / daisyUI             |
-| 環境構築               | Docker                             |
-| インフラ               | Render / Cloudflare                |
-| データベース           | PostgreSQL                         |
-| 検索機能               | Stimulus Autocomplete              |
-| チャート可視化         | cytoscape.js              　　　　     |
-| ノードレイアウト       | dagre.js                           |
-| ノードのツリー構造管理 | Ancestry                           |
-| 認証機能               | Devise / OmniAuth-Google-OAuth2    |
+| バックエンド   　　　　　　　　| Ruby on Rails 7.2.2.1 / Ruby 3.2.3 |
+| フロントエンド         | JavaScript / Stimulus |
+| CSS フレームワーク     | Tailwind CSS / daisyUI |
+| 環境構築               | Docker |
+| インフラ               | Render |
+| データベース           | PostgreSQL |
+| 認証機能               | Devise / omniauth-line / omniauth-google-oauth2 / omniauth-apple |
