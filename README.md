@@ -102,3 +102,8 @@
 | インフラ | Render |
 | データベース | PostgreSQL |
 | 認証機能 | Devise / omniauth-line / omniauth-google-oauth2 / omniauth-apple |
+
+## 画面遷移図
+
+https://www.figma.com/design/AB77xgxg39nGXgD8SHgSEi/%E6%99%82%E9%96%93%E4%BD%9C%E3%82%8B%E3%82%93?node-id=20-2&p=f&t=4CYouGWBatNeBuBA-0
+
