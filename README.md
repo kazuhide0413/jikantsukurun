@@ -107,3 +107,59 @@
 
 https://www.figma.com/design/AB77xgxg39nGXgD8SHgSEi/%E6%99%82%E9%96%93%E4%BD%9C%E3%82%8B%E3%82%93?node-id=20-2&p=f&t=4CYouGWBatNeBuBA-0
 
+## ER図
+
+[![Image from Gyazo](https://i.gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078.png)](https://gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078)
+
+```mermaid
+erDiagram
+	direction TB
+	USERS {
+		int id PK "(NOTNULL)"
+		string name "ユーザー名(NOTNULL)"
+		string email "メールアドレス(NOTNULL)"
+		string encrypted_password "暗号化済みパスワード(NOTNULL)"
+		string reset_password_token "トークン保存"
+		datetime reset_password_sent_at "リセット指示送信日時"
+		datetime remember_created_at "ログイン状態保持選択日時"
+		datetime created_at "作成日時(NOTNULL)"
+		datetime updated_at "更新日時(NOTNULL)"
+	}
+	HABITS {
+		int id PK "(NOTNULL)"
+		int user_id FK "ユーザーID(NOTNULL)"
+		string title "習慣名(NOTNULL)"
+		boolean is_default "初期デフォルト習慣かどうか"
+		datetime created_at "作成日時(NOTNULL)"
+		datetime updated_at "更新日時(NOTNULL)"
+	}
+	DAILY_HABIT_RECORDS {
+        int id PK "(NOTNULL)"
+        int habit_id FK "習慣ID(NOTNULL)"
+		date record_date "記録日(NOTNULL)"
+		boolean is_completed "完了したかどうか"
+        datetime completed_at "完了時刻"
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
+    }
+    SESSIONS {
+        int id PK "(NOTNULL)"
+        int user_id FK "ユーザーID(NOTNULL)"
+		date session_date "セッション日付(NOTNULL)"
+        datetime return_home_at "帰宅時刻"
+        datetime bedtime_at "就寝時刻"
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
+    }
+    EFFECTIVE_TIMES {
+        int id PK "(NOTNULL)"
+        int session_id FK "セッションID(NOTNULL)"
+        interval duration "有効に使えた時間"
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
+    }
+    USERS ||--o{ HABITS : ""
+    USERS ||--o{ SESSIONS : ""
+    HABITS ||--o{ DAILY_HABIT_RECORDS : ""
+    SESSIONS ||--o{ EFFECTIVE_TIMES : ""
+```
