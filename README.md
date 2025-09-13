@@ -108,6 +108,9 @@
 https://www.figma.com/design/AB77xgxg39nGXgD8SHgSEi/%E6%99%82%E9%96%93%E4%BD%9C%E3%82%8B%E3%82%93?node-id=20-2&p=f&t=4CYouGWBatNeBuBA-0
 
 ## ER図
+
+[![Image from Gyazo](https://i.gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078.png)](https://gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078)
+
 ```mermaid
 erDiagram
 	direction TB
@@ -143,8 +146,8 @@ erDiagram
         int id PK "(NOTNULL)"
         int user_id FK "ユーザーID(NOTNULL)"
 		date session_date "セッション日付(NOTNULL)"
-        datetime start_time "帰宅時刻"
-        datetime end_time "就寝時刻"
+        datetime return_home_at "帰宅時刻"
+        datetime bedtime_at "就寝時刻"
         datetime created_at "作成日時(NOTNULL)"
         datetime updated_at "更新日時(NOTNULL)"
     }
