@@ -30,4 +30,9 @@ class Users::SessionsController < Devise::SessionsController
     guide_path
   end
 
+  # サインアウト後のリダイレクト先を指定する
+  def after_sign_out_path_for(resource_or_scope)
+    root_path
+  end
+
 end
