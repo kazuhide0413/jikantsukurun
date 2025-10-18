@@ -49,15 +49,8 @@
         </div>
       <% end %>
 
-      <!-- フッターリンク -->
-      <footer class="pt-4 space-y-2">
-        <p class="text-black text-base [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          <%= link_to "新規登録がまだの場合", new_user_registration_path, class: "underline hover:text-gray-700" %>
-        </p>
-        <p class="text-black text-base [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          <%= link_to "パスワードを忘れた場合", new_user_password_path, class: "underline hover:text-gray-700" %>
-        </p>
-      </footer>
+      <!-- 部分テンプレート化 -->
+      <%= render "devise/shared/links" %>
     </main>
   </body>
 </html>
