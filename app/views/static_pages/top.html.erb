@@ -43,17 +43,22 @@
 
       <!-- ボタン -->
       <div class="flex flex-col space-y-4 w-full px-4">
-        <button
-          class="bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]"
-        >
-          新規登録してはじめる
-        </button>
+        <% if user_signed_in? %>
+          <!-- ログイン済みユーザー向けのボタン　今後、link_to "習慣入力"、habit_pathに変更する -->
+          <%= link_to "今日の習慣を入力する", 
+              guide_path, 
+              class: "bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
 
-        <button
-          class="bg-white rounded-xl py-3 text-2xl text-black hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-        >
-          ログイン
-        </button>
+        <% else %>
+          <!-- 未ログインユーザー向けのボタン -->
+          <%= link_to "新規登録してはじめる", 
+              new_user_registration_path, 
+              class: "bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+
+          <%= link_to "ログイン", 
+              new_user_session_path, 
+              class: "bg-white rounded-xl py-3 text-2xl text-black hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+        <% end %>
       </div>
     </main>
   </body>

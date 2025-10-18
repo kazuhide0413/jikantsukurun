@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
-  get "static_pages/top"
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    sessions: 'users/sessions'
+  }
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  get "guide", to: "guide#index"
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
@@ -12,4 +17,12 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "static_pages#top"
+
+  # 開発用：手軽なログアウト：http://localhost:3000/o
+  if Rails.env.development?
+    devise_scope :user do
+      get "o", to: "devise/sessions#destroy"
+    end
+  end
+
 end
