@@ -3,107 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>新規登録</title>
+    <title>時間作るん</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
     <main class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
       <!-- タイトル -->
       <header class="mt-10">
-        <h1 class="font-medium text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
-          新規登録
+        <h1 class="font-black text-4xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+          時間作るん
         </h1>
       </header>
 
-      <!-- 登録フォーム -->
-      <form class="w-full space-y-5 text-left">
-        <!-- ユーザー名 -->
-        <div>
-          <label for="username" class="block mb-1 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-            ユーザー名
-          </label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            required
-            autocomplete="username"
-            class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#67c2fa] [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          />
-        </div>
+      <!-- サブタイトル -->
+      <p class="text-xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+        〜毎日の時間は有限です〜
+      </p>
 
-        <!-- メールアドレス -->
-        <div>
-          <label for="email" class="block mb-1 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-            メールアドレス
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            autocomplete="email"
-            class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#67c2fa] [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          />
-        </div>
+      <!-- 記録の付け方 -->
+      <section class="rounded-2xl p-4 w-full text-left">
+        <h2 class="font-bold text-lg mb-2 text-black">記録の付け方</h2>
+        <p class="text-base leading-relaxed text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          １．「➕習慣登録」ボタンを押します<br />
+          ２．家に帰ってきたら、「帰宅」ボタンを押します<br />
+          ３．あなたが嫌だと思っている嫌な習慣をやったら、「その習慣」ボタンを押します<br />
+          ４．すべてやり終えます<br />
+          ５．寝る時、「就寝」ボタンを押します
+        </p>
+      </section>
 
-        <!-- パスワード -->
-        <div>
-          <label for="password" class="block mb-1 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-            パスワード
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            autocomplete="new-password"
-            class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#67c2fa] [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          />
-        </div>
+      <!-- 記録の見方 -->
+      <section class="rounded-2xl p-4 w-full text-left">
+        <h2 class="font-bold text-lg mb-2 text-black">記録の見方</h2>
+        <p class="text-base leading-relaxed text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          「カレンダー」ボタンを押すと、<br />
+          あなたが有効に使えた時間が表示されます
+        </p>
+      </section>
 
-        <!-- パスワード確認 -->
-        <div>
-          <label for="password-confirm" class="block mb-1 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-            パスワード（確認用）
-          </label>
-          <input
-            type="password"
-            id="password-confirm"
-            name="password-confirm"
-            required
-            autocomplete="new-password"
-            class="w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-[#67c2fa] [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          />
-        </div>
-
-        <!-- 登録ボタン -->
-        <div class="pt-4">
-          <button
-            type="submit"
-            class="w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl font-medium text-black transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]"
-          >
-            登録
-          </button>
-        </div>
-      </form>
-
-      <!-- LINEログインボタン -->
-      <div class="w-full pt-2">
-        <button
-          type="button"
-          class="w-full bg-green-500 hover:bg-green-400 rounded-xl py-3 text-2xl font-medium text-black transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]"
-        >
-          LINEでログインする
-        </button>
+      <!-- ログアウトボタン -->
+      <div class="flex flex-col space-y-4 w-full px-4">
+        <%= link_to "ログアウト", destroy_user_session_path,
+            data: { "turbo-method": :delete }, 
+            class: "bg-[#ff0000] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#e60000] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
       </div>
 
-      <!-- フッター -->
-      <footer class="pt-4">
-        <p class="text-black text-base [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          新規登録が済んでいる場合
-        </p>
-      </footer>
     </main>
   </body>
 </html>

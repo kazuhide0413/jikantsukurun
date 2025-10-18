@@ -18,11 +18,4 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "static_pages#top"
 
-  # 開発用：手軽なログアウト：http://localhost:3000/o
-  if Rails.env.development?
-    devise_scope :user do
-      get "o", to: "devise/sessions#destroy"
-    end
-  end
-
 end
