@@ -1,83 +1,56 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ホーム | 時間作るん</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  </head>
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6"> <div class="container mx-auto pt-3"> <div class="flex justify-center"> <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+    <!-- おかえりなさい -->
+    <section aria-labelledby="greeting-1">
+      <h1 id="greeting-1" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        おかえりなさい！
+      </h1>
+    </section>
 
-  <body class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-center p-6">
-    <main class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+    <!-- 帰宅ボタン -->
+    <section class="w-full">
+      <%= link_to root_path, class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+        帰宅
+      <% end %>
+    </section>
 
-      <!-- おかえりなさい -->
-      <section aria-labelledby="greeting-1">
-        <h1 id="greeting-1" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
-          おかえりなさい！
-        </h1>
-      </section>
+    <!-- 嫌なことを終わらせよう -->
+    <section aria-labelledby="motivation">
+      <h2 id="motivation" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        嫌なことを終わらせよう！
+      </h2>
+    </section>
 
-      <!-- 帰宅ボタン -->
-      <section class="w-full">
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="帰宅">
-          帰宅
-        </button>
-      </section>
+    <!-- 習慣ボタン群 -->
+    <div class="flex flex-col space-y-4 w-full">
+      <% if @habits.present? %>
+        <% @habits.each do |habit| %>
+          <%= render "habit_button", habit: habit %>
+        <% end %>
+      <% else %>
+        <p class="text-gray-600 text-lg [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          登録された習慣がありません
+        </p>
+      <% end %>
 
-      <!-- 嫌なことを終わらせよう -->
-      <section aria-labelledby="motivation">
-        <h2 id="motivation" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
-          嫌なことを終わらせよう！
-        </h2>
-      </section>
+      <!-- 習慣追加ボタン -->
+      <%= link_to new_habit_path, class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+        <i class="fas fa-plus"></i>
+      <% end %>
+    </div>
 
-      <!-- 習慣ボタン群 -->
-      <div class="flex flex-col space-y-4 w-full">
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="洗濯">
-          洗濯
-        </button>
+    <!-- おやすみなさい -->
+    <section aria-labelledby="greeting-2">
+      <h2 id="greeting-2" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        おやすみなさい！
+      </h2>
+    </section>
 
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="お風呂">
-          お風呂
-        </button>
+    <!-- 就寝ボタン -->
+    <section class="w-full">
+      <%= link_to "#", class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+        就寝
+      <% end %>
+    </section>
 
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="歯磨き">
-          歯磨き
-        </button>
-
-        <!-- 登録ボタン（白背景・プラスアイコンのみ） -->
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="新しい習慣を追加">
-          <i class="fas fa-plus"></i>
-        </button>
-      </div>
-
-      <!-- おやすみなさい -->
-      <section aria-labelledby="greeting-2">
-        <h2 id="greeting-2" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
-          おやすみなさい！
-        </h2>
-      </section>
-
-      <!-- 就寝ボタン -->
-      <section class="w-full">
-        <button type="button"
-          class="w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]"
-          aria-label="就寝">
-          就寝
-        </button>
-      </section>
-
-    </main>
-  </body>
-</html>
+  </div>
+</div>
