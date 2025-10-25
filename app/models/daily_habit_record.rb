@@ -8,6 +8,7 @@ class DailyHabitRecord < ApplicationRecord
   scope :for_date, ->(date) { where(record_date: date) }
   scope :today, -> { for_date(Date.current) }
   scope :completed, -> { where(is_completed: true) }
+  scope :incomplete, -> { where(is_completed: false) }
 
   # 完了状態の判定メソッド
   def completed?
