@@ -127,7 +127,7 @@ erDiagram
 	}
 	HABITS {
 		int id PK "(NOTNULL)"
-		int user_id FK "ユーザーID(NOTNULL)"
+		int user_id FK "ユーザーID"
 		string title "習慣名(NOTNULL)"
 		boolean is_default "初期デフォルト習慣かどうか"
 		datetime created_at "作成日時(NOTNULL)"
