@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   ## メイン機能
   root "static_pages#top"
   resources :habits
+  resource :settings, only: [:show, :update]
 
   ## 静的ページ
   get "guide", to: "guide#index"
