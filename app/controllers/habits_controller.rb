@@ -1,6 +1,6 @@
 class HabitsController < ApplicationController
   before_action :authenticate_user!  # Devise使用時
-  before_action :set_habit, only: [:show] #, :edit, :update, :destroy]
+  before_action :set_habit, only: [:show, :edit, :update, :destroy]
 
   def index
     user_habits = Habit.where(user: current_user)
@@ -8,8 +8,7 @@ class HabitsController < ApplicationController
     @habits = (user_habits + default_habits).uniq { |h| h.title }
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @habit = Habit.new
@@ -23,6 +22,22 @@ class HabitsController < ApplicationController
       flash.now[:alert] = "保存に失敗しました。"
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def edit; end
+
+  def update
+    if @habit.update(habit_params)
+      redirect_to habit_path(@habit), notice: "習慣を更新しました！"
+    else
+      flash.now[:alert] = "更新に失敗しました。"
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @habit.destroy
+    redirect_to habits_path, notice: "習慣を削除しました。"
   end
 
   private
