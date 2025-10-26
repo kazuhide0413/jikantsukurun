@@ -1,0 +1,37 @@
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+  <div class="container mx-auto pt-3">
+    <div class="flex justify-center">
+      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+
+        <!-- タイトル -->
+        <section aria-labelledby="habit-edit-title">
+          <h1 id="habit-edit-title" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+            習慣を編集する
+          </h1>
+        </section>
+
+        <!-- フォーム -->
+        <section class="w-full">
+          <%= render "form", habit: @habit %>
+        </section>
+
+        <!-- 削除ボタン（ログアウトボタンと同デザイン） -->
+        <section class="w-full">
+          <%= link_to "削除", habit_path(@habit),
+              data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+              class: "block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-2xl font-medium text-black
+                      transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+        </section>
+
+        <!-- 戻るボタン -->
+        <section class="w-full">
+          <%= link_to "戻る", habits_path,
+              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+                      hover:bg-gray-100 transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
