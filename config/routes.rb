@@ -8,7 +8,12 @@ Rails.application.routes.draw do
   ## メイン機能
   root "static_pages#top"
   resources :habits
-  resource :settings, only: [:show, :update]
+  resource :settings, only: [:show] do
+    get :edit_name
+    patch :update_name
+    # 将来的にLINE通知設定を追加
+    # get :line
+  end
 
   ## 静的ページ
   get "guide", to: "guide#index"

@@ -1,4 +1,34 @@
-<div>
-  <h1 class="font-bold text-4xl">Settings#show</h1>
-  <p>Find me in app/views/settings/show.html.erb</p>
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+  <div class="container mx-auto pt-3">
+    <div class="flex justify-center">
+      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-6">
+
+        <!-- タイトル -->
+        <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          設定
+        </h1>
+
+        <!-- ユーザー名編集ボタン -->
+        <%= link_to edit_name_settings_path,
+            class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                    hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+          ユーザー名編集
+        <% end %>
+
+        <!-- LINE通知設定（将来的に有効化） -->
+        <button disabled
+          class="block w-full bg-gray-200 border border-gray-300 rounded-xl py-3 text-xl font-medium text-gray-500
+                 cursor-not-allowed shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          LINE通知設定（準備中）
+        </button>
+
+        <!-- ログアウトボタン -->
+        <%= link_to "ログアウト", destroy_user_session_path,
+            data: { "turbo-method": :delete },
+            class: "w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-xl font-medium text-black
+                    transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+
+      </div>
+    </div>
+  </div>
 </div>
