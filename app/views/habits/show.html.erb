@@ -1,0 +1,46 @@
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+  <div class="container mx-auto pt-3">
+    <div class="flex justify-center">
+      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+
+        <!-- タイトル -->
+        <section aria-labelledby="habit-show-title">
+          <h1 id="habit-show-title" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+            <%= @habit.title %>
+          </h1>
+        </section>
+
+        <!-- やったボタン（水色） -->
+        <section class="w-full">
+          <%= button_to "#", method: :post,
+              class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
+                      transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+              aria: { label: "#{@habit.title}をやった" } do %>
+            やった！
+          <% end %>
+        </section>
+
+        <!-- 編集ボタン -->
+        <section class="w-full">
+          <%= link_to edit_habit_path(@habit),
+              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+                      hover:bg-gray-100 transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+            編集
+          <% end %>
+        </section>
+
+        <!-- 戻るボタン -->
+        <section class="w-full">
+          <%= link_to habits_path,
+              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+                      hover:bg-gray-100 transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+            戻る
+          <% end %>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
