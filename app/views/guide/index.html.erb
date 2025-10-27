@@ -41,13 +41,6 @@
         </p>
       </section>
 
-      <!-- ログアウトボタン -->
-      <div class="flex flex-col space-y-4 w-full px-4">
-        <%= link_to "ログアウト", destroy_user_session_path,
-            data: { "turbo-method": :delete }, 
-            class: "bg-[#ff0000] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#e60000] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
-      </div>
-
     </main>
   </body>
 </html>
