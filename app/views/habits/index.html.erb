@@ -1,50 +1,44 @@
 <div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6 pb-24">
   <div class="container mx-auto pt-3">
     <div class="flex justify-center">
-      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+      <!-- space-y-8 を削除 -->
+      <div class="w-full max-w-sm flex flex-col items-center text-center">
 
         <!-- おかえりなさい -->
-        <section aria-labelledby="greeting-1">
-          <h1 id="greeting-1" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        <section class="mb-4">
+          <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
             おかえりなさい！
           </h1>
         </section>
 
         <!-- 帰宅ボタン -->
-        <section class="w-full">
+        <section class="mb-6 w-full">
           <%= link_to "#", class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
             帰宅
           <% end %>
         </section>
 
         <!-- 嫌なことを終わらせよう -->
-        <section aria-labelledby="motivation">
-          <h2 id="motivation" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        <section class="mb-4">
+          <h2 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
             嫌なことを終わらせよう！
           </h2>
         </section>
 
         <!-- 習慣ボタン群 -->
-        <div class="flex flex-col space-y-4 w-full">
-          <% if @habits.present? %>
-            <% @habits.each do |habit| %>
-              <%= render partial: "habit_button", locals: { habit: habit } %>
-            <% end %>
-          <% else %>
-            <p class="text-gray-600 text-lg [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-              登録された習慣がありません
-            </p>
+        <div class="flex flex-col w-full [&>*+*]:mt-4 mb-8">
+          <% @habits.each do |habit| %>
+            <%= render partial: "habit_button", locals: { habit: habit } %>
           <% end %>
 
-          <!-- 習慣追加ボタン -->
           <%= link_to new_habit_path, class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
             <i class="fas fa-plus mr-2"></i> 習慣を追加
           <% end %>
         </div>
 
         <!-- おやすみなさい -->
-        <section aria-labelledby="greeting-2">
-          <h2 id="greeting-2" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+        <section class="mb-4">
+          <h2 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
             おやすみなさい！
           </h2>
         </section>
