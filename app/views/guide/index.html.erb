@@ -6,7 +6,7 @@
     <title>時間作るん</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+  <body class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6 pb-24">
     <main class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
       <!-- タイトル -->
       <header class="mt-10">
@@ -41,13 +41,8 @@
         </p>
       </section>
 
-      <!-- ログアウトボタン -->
-      <div class="flex flex-col space-y-4 w-full px-4">
-        <%= link_to "ログアウト", destroy_user_session_path,
-            data: { "turbo-method": :delete }, 
-            class: "bg-[#ff0000] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#e60000] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
-      </div>
-
     </main>
   </body>
 </html>
+
+<%= render 'shared/footer' %>
