@@ -1,8 +1,10 @@
 class DailyHabitRecord < ApplicationRecord
+  belongs_to :user
   belongs_to :habit
 
   validates :record_date, presence: true
-  validates :record_date, uniqueness: { scope: :habit_id } # 1日1レコード制約
+  validates :habit_id, uniqueness: { scope: [:user_id, :record_date],
+    message: "は同じ日に重複登録できません" }
   validates :is_completed, inclusion: { in: [true, false] }
 
   scope :for_date, ->(date) { where(record_date: date) }
