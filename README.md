@@ -133,33 +133,28 @@ erDiagram
 		datetime created_at "作成日時(NOTNULL)"
 		datetime updated_at "更新日時(NOTNULL)"
 	}
-	DAILY_HABIT_RECORDS {
+    DAILY_HABIT_RECORDS {
         int id PK "(NOTNULL)"
+        int user_id FK "ユーザーID(NOTNULL)"
         int habit_id FK "習慣ID(NOTNULL)"
-		date record_date "記録日(NOTNULL)"
-		boolean is_completed "完了したかどうか"
+        date record_date "記録日(NOTNULL)"
+        boolean is_completed "完了したかどうか"
         datetime completed_at "完了時刻"
         datetime created_at "作成日時(NOTNULL)"
         datetime updated_at "更新日時(NOTNULL)"
     }
-    SESSIONS {
+    DAILY_SESSIONS {
         int id PK "(NOTNULL)"
         int user_id FK "ユーザーID(NOTNULL)"
-		date session_date "セッション日付(NOTNULL)"
+        date session_date "セッション日付(NOTNULL)"
         datetime return_home_at "帰宅時刻"
         datetime bedtime_at "就寝時刻"
-        datetime created_at "作成日時(NOTNULL)"
-        datetime updated_at "更新日時(NOTNULL)"
-    }
-    EFFECTIVE_TIMES {
-        int id PK "(NOTNULL)"
-        int session_id FK "セッションID(NOTNULL)"
-        interval duration "有効に使えた時間"
+        interval effective_duration "有効に使えた時間"
         datetime created_at "作成日時(NOTNULL)"
         datetime updated_at "更新日時(NOTNULL)"
     }
     USERS ||--o{ HABITS : ""
-    USERS ||--o{ SESSIONS : ""
+    USERS ||--o{ DAILY_HABIT_RECORDS : ""
+    USERS ||--o{ DAILY_SESSIONS : ""
     HABITS ||--o{ DAILY_HABIT_RECORDS : ""
-    SESSIONS ||--o{ EFFECTIVE_TIMES : ""
 ```
