@@ -8,7 +8,10 @@ class HabitsController < ApplicationController
     @habits = (user_habits + default_habits).uniq { |h| h.title }
   end
 
-  def show; end
+  def show
+    @habit = current_user.habits.find(params[:id])
+    @today_record = @habit.daily_habit_records.find_by(record_date: Date.current)
+  end
 
   def new
     @habit = Habit.new

@@ -10,13 +10,19 @@
           </h1>
         </section>
 
-        <!-- やったボタン（水色） -->
+        <!-- やったボタン（水色 or グレー） -->
         <section class="w-full">
-          <%= button_to "#", method: :post,
-              class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
-                      transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
-              aria: { label: "#{@habit.title}をやった" } do %>
-            やった！
+          <% completed = @today_record&.is_completed %>
+
+          <%= button_to toggle_record_habit_path(@habit),
+              method: :post,
+              class: [
+                "w-full rounded-xl py-3 text-2xl text-black font-medium shadow-sm transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+                completed ? "bg-gray-300 cursor-not-allowed" : "bg-[#67c2fa] hover:bg-[#4eb3f7]"
+              ].join(" "),
+              aria: { label: "#{@habit.title}を#{completed ? '完了済み' : 'やった'}" },
+              disabled: completed do %>
+            <%= completed ? "完了済み！" : "やった！" %>
           <% end %>
         </section>
 
