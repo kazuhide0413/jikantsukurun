@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   ## メイン機能
   root "static_pages#top"
-  resources :habits
+
+  resources :habits do
+    post :toggle_record, to: "daily_habit_records#toggle"
+  end
+
   resource :settings, only: [:show] do
     get :edit_name
     patch :update_name
