@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_01_025326) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_01_122233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_01_025326) do
     t.date "session_date", null: false
     t.datetime "return_home_at"
     t.datetime "bedtime_at"
-    t.interval "effective_duration"
+    t.integer "effective_duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "session_date"], name: "index_daily_sessions_on_user_id_and_session_date", unique: true
