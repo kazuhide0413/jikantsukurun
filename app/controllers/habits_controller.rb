@@ -6,10 +6,14 @@ class HabitsController < ApplicationController
     user_habits = Habit.where(user: current_user)
     default_habits = Habit.default_habits
     @habits = (user_habits + default_habits).uniq { |h| h.title }
+
+    # 👇 追加：今日完了済みの習慣IDを取得
+    today = Date.current
+    @completed_habit_ids = DailyHabitRecord.where(record_date: today, is_completed: true).pluck(:habit_id)
   end
 
   def show
-    @habit = current_user.habits.find(params[:id])
+    @habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
     @today_record = @habit.daily_habit_records.find_by(record_date: Date.current)
   end
 

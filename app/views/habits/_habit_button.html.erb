@@ -1,3 +1,10 @@
-<%= link_to habit_path(habit), class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]", aria: { label: habit.title } do %>
-  <%= habit.title %>
+<% completed = @completed_habit_ids.include?(habit.id) %>
+
+<%= link_to habit_path(habit),
+    class: [
+      "block w-full border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+      completed ? "bg-gray-300 cursor-not-allowed" : "bg-white hover:bg-gray-100"
+    ].join(" "),
+    aria: { label: habit.title } do %>
+  <%= completed ? "✅ #{habit.title}" : habit.title %>
 <% end %>

@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   root "static_pages#top"
 
   resources :habits do
-    post :toggle_record, to: "daily_habit_records#toggle"
+    member do
+      post :toggle_record, to: "daily_habit_records#toggle"
+    end
   end
 
   resource :settings, only: [:show] do

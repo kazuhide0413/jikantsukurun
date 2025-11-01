@@ -16,6 +16,7 @@
 
           <%= button_to toggle_record_habit_path(@habit),
               method: :post,
+              data: { turbo: false },
               class: [
                 "w-full rounded-xl py-3 text-2xl text-black font-medium shadow-sm transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
                 completed ? "bg-gray-300 cursor-not-allowed" : "bg-[#67c2fa] hover:bg-[#4eb3f7]"
