@@ -2,15 +2,13 @@
 
 <%= link_to habit_path(habit),
     class: [
-      "block w-full border border-gray-300 rounded-xl py-3 text-2xl font-medium shadow-sm transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
-      completed ? "bg-[#67c2fa] text-white cursor-auto" : "bg-white text-black hover:bg-gray-100"
+      "block w-full rounded-xl py-3 text-2xl font-medium shadow-sm transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+      completed ? "bg-gray-300 text-black cursor-not-allowed" : "bg-[#67c2fa] text-black hover:bg-[#4eb3f7]"
     ].join(" "),
-    aria: { label: "#{habit.title}を#{completed ? '完了済み' : 'やった'}" } do %>
+    aria: { label: "#{habit.title}を#{completed ? '完了済み' : 'やった'}" },
+    disabled: completed do %>
 
-  <!-- ✅ 常に習慣名を表示 -->
   <%= habit.title %>
-
-  <!-- ✅ 完了済みなら右側にチェックマークを追加 -->
   <% if completed %>
     <span class="ml-2 text-sm">✔ 完了</span>
   <% end %>

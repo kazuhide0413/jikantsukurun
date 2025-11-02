@@ -1,7 +1,6 @@
 <div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6 pb-24">
   <div class="container mx-auto pt-3">
     <div class="flex justify-center">
-      <!-- space-y-8 を削除 -->
       <div class="w-full max-w-sm flex flex-col items-center text-center">
 
         <!-- おかえりなさい -->
@@ -13,8 +12,17 @@
 
         <!-- 帰宅ボタン -->
         <section class="mb-6 w-full">
-          <%= link_to "#", class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-            帰宅
+          <% if @today_session&.return_home_at.blank? %>
+            <!-- 帰宅前：押せる -->
+            <%= button_to "帰宅", return_home_daily_session_path,
+                method: :post,
+                class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-white shadow-sm hover:bg-[#4eb3f7] transition-colors text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+          <% else %>
+            <!-- 帰宅後：押せない -->
+            <button disabled
+              class="block w-full bg-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm cursor-not-allowed text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+              帰宅済み
+            </button>
           <% end %>
         </section>
 
@@ -26,13 +34,36 @@
         </section>
 
         <!-- 習慣ボタン群 -->
-        <div class="flex flex-col w-full [&>*+*]:mt-4 mb-8">
-          <% @habits.each do |habit| %>
-            <%= render partial: "habit_button", locals: { habit: habit } %>
-          <% end %>
+        <div class="flex flex-col w-full mb-8">
+          <% if @today_session&.return_home_at.blank? %>
+            <!-- 帰宅前：グレーアウト＆押せない -->
+            <div class="opacity-50 cursor-not-allowed">
+              <div class="flex flex-col w-full [&>*+*]:mt-4">
+                <% @habits.each do |habit| %>
+                  <button disabled
+                    class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                    <%= habit.title %>
+                  </button>
+                <% end %>
 
-          <%= link_to new_habit_path, class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-            <i class="fas fa-plus mr-2"></i> 習慣を追加
+                <button disabled
+                  class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                  + 習慣を追加
+                </button>
+              </div>
+            </div>
+          <% else %>
+            <!-- 帰宅後：押せる -->
+            <div class="flex flex-col w-full [&>*+*]:mt-4">
+              <% @habits.each do |habit| %>
+                <%= render partial: "habit_button", locals: { habit: habit } %>
+              <% end %>
+
+              <%= link_to new_habit_path,
+                class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+                <i class="fas fa-plus mr-2"></i> 習慣を追加
+              <% end %>
+            </div>
           <% end %>
         </div>
 
@@ -45,8 +76,32 @@
 
         <!-- 就寝ボタン -->
         <section class="w-full">
-          <%= link_to "#", class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-gray-100 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-            就寝
+          <% if @today_session&.return_home_at.blank? %>
+            <!-- 帰宅前：押せない -->
+            <button disabled
+              class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm cursor-not-allowed text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+              就寝
+            </button>
+          <% elsif @today_session&.bedtime_at.blank? %>
+            <% target_ids = current_user.habits.pluck(:id) %>
+            <% if @today_session.all_habits_completed_today?(target_ids) %>
+              <!-- 全習慣完了後：押せる -->
+              <%= button_to "就寝", bedtime_daily_session_path,
+                  method: :post,
+                  class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-white hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+            <% else %>
+              <!-- 帰宅後・未完了：押せない -->
+              <button disabled
+                class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm cursor-not-allowed text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                就寝
+              </button>
+            <% end %>
+          <% else %>
+            <!-- 就寝後 -->
+            <button disabled
+              class="block w-full bg-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm cursor-not-allowed text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+              記録完了🌙
+            </button>
           <% end %>
         </section>
 
