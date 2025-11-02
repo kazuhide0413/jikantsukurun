@@ -1,10 +1,18 @@
-<% completed = @completed_habit_ids.include?(habit.id) %>
+<% completed = (@completed_habit_ids || []).include?(habit.id) %>
 
 <%= link_to habit_path(habit),
     class: [
-      "block w-full border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
-      completed ? "bg-gray-300 cursor-auto" : "bg-white hover:bg-gray-100"
+      "block w-full border border-gray-300 rounded-xl py-3 text-2xl font-medium shadow-sm transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+      completed ? "bg-[#67c2fa] text-white cursor-auto" : "bg-white text-black hover:bg-gray-100"
     ].join(" "),
-    aria: { label: habit.title } do %>
-  <%= completed ? "✅ #{habit.title}" : habit.title %>
+    aria: { label: "#{habit.title}を#{completed ? '完了済み' : 'やった'}" } do %>
+
+  <!-- ✅ 常に習慣名を表示 -->
+  <%= habit.title %>
+
+  <!-- ✅ 完了済みなら右側にチェックマークを追加 -->
+  <% if completed %>
+    <span class="ml-2 text-sm">✔ 完了</span>
+  <% end %>
+
 <% end %>

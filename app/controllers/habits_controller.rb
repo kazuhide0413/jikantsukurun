@@ -2,15 +2,21 @@ class HabitsController < ApplicationController
   before_action :authenticate_user!  # Devise使用時
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
 
-  def index
-    user_habits = Habit.where(user: current_user)
-    default_habits = Habit.default_habits
-    @habits = (user_habits + default_habits).uniq { |h| h.title }
+def index
+  @habits = Habit.where(user_id: [current_user.id, nil])
+  @today_session = current_user.daily_sessions.find_or_create_by(session_date: Date.current)
 
-    # 👇 追加：今日完了済みの習慣IDを取得
-    today = Date.current
-    @completed_habit_ids = DailyHabitRecord.where(record_date: today, is_completed: true).pluck(:habit_id)
-  end
+  today = Date.current
+
+  # ✅ 現在のユーザーの習慣に対応する記録（user_idは固定しない）
+  records = DailyHabitRecord
+              .where(record_date: today, habit_id: @habits.pluck(:id), is_completed: true)
+              .pluck(:habit_id)
+
+  @completed_habit_ids = records
+end
+
+
 
   def show
     @habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
