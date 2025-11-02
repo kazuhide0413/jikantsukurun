@@ -5,12 +5,11 @@ class DailySessionsController < ApplicationController
   # 🏠 帰宅ボタン
   # ------------------------------------------------------
   def return_home
-    session = find_today_session
-
-    if session.return_home_at.present?
+    daily_session = find_today_session
+    if daily_session.return_home_at.present?
       redirect_to habits_path, notice: "すでに『帰宅』は記録済みです。"
     else
-      session.update!(return_home_at: Time.current)
+      daily_session.update!(return_home_at: Time.current)
       redirect_to habits_path, notice: "『帰宅』を記録しました。"
     end
   end
@@ -19,10 +18,10 @@ class DailySessionsController < ApplicationController
   # 💤 就寝ボタン
   # ------------------------------------------------------
   def bedtime
-    session = find_today_session
+    daily_session = find_today_session
 
     # 帰宅していないのに就寝ボタンを押した場合
-    unless session.return_home_at.present?
+    unless daily_session.return_home_at.present?
       redirect_to habits_path, alert: "先に『帰宅』を記録してください。"
       return
     end
@@ -31,16 +30,16 @@ class DailySessionsController < ApplicationController
     target_ids = current_user.habits.pluck(:id)
 
     # 未完了の習慣がある場合は就寝できない
-    unless session.all_habits_completed_today?(target_ids)
+    unless daily_session.all_habits_completed_today?(target_ids)
       redirect_to habits_path, alert: "未完了の習慣があります。すべて完了してから『就寝』してください。"
       return
     end
 
     # 就寝時刻を保存して有効時間を計算
-    session.update!(bedtime_at: Time.current)
-    session.calculate_effective_duration!
+    daily_session.update!(bedtime_at: Time.current)
+    daily_session.calculate_effective_duration!
 
-    dur = session.effective_duration.to_i
+    dur = daily_session.effective_duration.to_i
     hours = dur / 3600
     minutes = (dur % 3600) / 60
 

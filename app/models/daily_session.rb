@@ -12,9 +12,11 @@ class DailySession < ApplicationRecord
     last_completed_at = user.daily_habit_records
                             .where(record_date: session_date, is_completed: true)
                             .maximum(:completed_at)
-    return unless bedtime_at && last_completed_at
+    return nil unless bedtime_at && last_completed_at
 
-    update!(effective_duration: (bedtime_at - last_completed_at).to_i)
+    duration = (bedtime_at - last_completed_at).to_i
+    update!(effective_duration: duration)
+    duration
   end
 
   # ------------------------------------------------------
