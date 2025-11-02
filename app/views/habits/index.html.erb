@@ -16,7 +16,7 @@
             <!-- 帰宅前：押せる -->
             <%= button_to "帰宅", return_home_daily_session_path,
                 method: :post,
-                class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-white shadow-sm hover:bg-[#4eb3f7] transition-colors text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+                class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-[#4eb3f7] transition-colors text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
           <% else %>
             <!-- 帰宅後：押せない -->
             <button disabled
@@ -88,7 +88,7 @@
               <!-- 全習慣完了後：押せる -->
               <%= button_to "就寝", bedtime_daily_session_path,
                   method: :post,
-                  class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-white hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+                  class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
             <% else %>
               <!-- 帰宅後・未完了：押せない -->
               <button disabled
