@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_31_114126) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_01_122233) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,18 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_114126) do
     t.index ["habit_id"], name: "index_daily_habit_records_on_habit_id"
     t.index ["user_id", "habit_id", "record_date"], name: "idx_on_user_id_habit_id_record_date_2c762ec563", unique: true
     t.index ["user_id"], name: "index_daily_habit_records_on_user_id"
+  end
+
+  create_table "daily_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.date "session_date", null: false
+    t.datetime "return_home_at"
+    t.datetime "bedtime_at"
+    t.integer "effective_duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "session_date"], name: "index_daily_sessions_on_user_id_and_session_date", unique: true
+    t.index ["user_id"], name: "index_daily_sessions_on_user_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -51,5 +63,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_31_114126) do
 
   add_foreign_key "daily_habit_records", "habits"
   add_foreign_key "daily_habit_records", "users"
+  add_foreign_key "daily_sessions", "users"
   add_foreign_key "habits", "users"
 end

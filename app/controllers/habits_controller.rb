@@ -3,12 +3,23 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
 
   def index
-    user_habits = Habit.where(user: current_user)
-    default_habits = Habit.default_habits
-    @habits = (user_habits + default_habits).uniq { |h| h.title }
+    @habits = Habit.where(user_id: [current_user.id, nil])
+    @today_session = current_user.daily_sessions.find_or_create_by(session_date: Date.current)
+
+    today = Date.current
+
+    # ✅ 現在のユーザーの習慣に対応する記録（user_idは固定しない）
+    records = DailyHabitRecord
+                .where(record_date: today, habit_id: @habits.pluck(:id), is_completed: true)
+                .pluck(:habit_id)
+
+    @completed_habit_ids = records
   end
 
-  def show; end
+  def show
+    @habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
+    @today_record = @habit.daily_habit_records.find_by(record_date: Date.current)
+  end
 
   def new
     @habit = Habit.new

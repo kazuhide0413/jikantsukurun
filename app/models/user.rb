@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :habits, dependent: :destroy
   has_many :daily_habit_records, through: :habits
+  has_many :daily_sessions, dependent: :destroy
 
   validates :name, presence: true
 
