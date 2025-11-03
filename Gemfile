@@ -76,3 +76,6 @@ gem "devise"
 
 #simple_calendar導入
 gem "simple_calendar"
+
+#祝日判定（日本）
+gem "holiday_jp"

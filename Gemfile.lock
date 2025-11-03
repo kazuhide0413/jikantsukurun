@@ -123,6 +123,7 @@ GEM
     erubi (1.13.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    holiday_jp (0.8.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.1)
@@ -372,6 +373,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
+  holiday_jp
   jbuilder
   jsbundling-rails
   pg (~> 1.1)
