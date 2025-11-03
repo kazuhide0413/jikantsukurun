@@ -1,12 +1,21 @@
-<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
-  <div class="w-full max-w-sm">
-    <h1 class="text-2xl font-bold text-black mb-4">📆 今月の有効時間</h1>
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center p-6">
+  <h1 class="text-2xl font-bold mb-4">📆 有効時間カレンダー</h1>
 
-    <% @effective_durations_by_date.each do |date, formatted| %>
-      <div class="bg-white rounded-lg shadow p-3 mb-2">
-        <p class="text-gray-700 font-medium"><%= date %></p>
-        <p class="text-sky-600 text-sm"><%= formatted || "記録なし" %></p>
+  <div class="w-full max-w-md">
+    <%= month_calendar do |date| %>
+      <% s = @sessions_by_date[date] %>
+      <div class="bg-white rounded-lg p-2 text-center text-sm shadow min-h-[64px]">
+        <div class="font-bold text-gray-700"><%= date.day %></div>
+        <div class="text-sky-600 text-xs">
+          <%= s&.formatted_effective_duration || "ー" %>
+        </div>
       </div>
     <% end %>
+  </div>
+
+  <div class="flex justify-between w-full max-w-md mt-4">
+    <%= link_to "← 前の月", daily_sessions_path(start_date: (@start_date - 1.month).to_s), class: "underline" %>
+    <%= link_to "今月", daily_sessions_path, class: "underline" %>
+    <%= link_to "次の月 →", daily_sessions_path(start_date: (@start_date + 1.month).to_s), class: "underline" %>
   </div>
 </div>
