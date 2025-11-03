@@ -1,18 +1,18 @@
 <%# app/views/simple_calendar/_month_calendar.html.erb %>
 <%= raw(
   content_tag(:div, class: "simple-calendar w-full") do
-    # 月タイトル
+    # 📅 月タイトル
     content_tag(:div, start_date.strftime("%Y年 %B"), class: "text-center text-lg font-semibold text-gray-800 mb-2") +
 
-    # 曜日ヘッダーと本体テーブル
+    # 🗓 曜日ヘッダーと本体テーブル
     content_tag(:table, class: "w-full table-fixed border-collapse text-sm text-center") do
-      # ヘッダー
+      # ---- ヘッダー（日曜始まり）----
       content_tag(:thead) do
         content_tag(:tr) do
-          %w(月 火 水 木 金 土 日).each_with_index.map do |day, i|
+          %w(日 月 火 水 木 金 土).each_with_index.map do |day, i|
             klass = case i
-              when 5 then "text-sky-500"
-              when 6 then "text-red-500"
+              when 0 then "text-red-500"
+              when 6 then "text-sky-500"
               else "text-gray-600"
             end
             content_tag(:th, day, class: "#{klass} pb-2")
@@ -20,16 +20,43 @@
         end
       end +
 
-      # カレンダーの週ごと
+      # ---- カレンダー本体（日曜始まり・6行固定）----
       content_tag(:tbody) do
-        date_range.each_slice(7).map do |week|
+        # 📆 月全体を「日曜始まり〜土曜終わり」で取得
+        custom_range = (start_date.beginning_of_month.beginning_of_week(:sunday)..start_date.end_of_month.end_of_week(:sunday)).to_a
+
+        # ✅ 行数（週数）が6未満なら次月の日で埋める
+        if (custom_range.size / 7) < 6
+          last_date = custom_range.last
+          ((6 * 7) - custom_range.size).times do |i|
+            custom_range << (last_date + (i + 1).days)
+          end
+        end
+
+        # 📅 各週を1行ずつ出力
+        custom_range.each_slice(7).map do |week|
           content_tag(:tr) do
             week.map do |date|
               is_today = (date == Date.current)
+              is_other_month = (date.month != start_date.month)
+
               content_tag(:td, class: "align-top p-1") do
-                content_tag(:div, class: "flex flex-col items-center justify-center w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-lg mx-auto #{'bg-sky-100 border border-sky-300' if is_today}") do
-                  content_tag(:div, date.day, class: "font-bold text-sm #{day_text_color(date)}") +
-                  content_tag(:div, passed_block.call(date), class: "text-[10px] text-gray-500 mt-0.5 leading-tight")
+                content_tag(:div,
+                  class: "flex flex-col items-center justify-center
+                          w-[46px] h-[46px] sm:w-[52px] sm:h-[52px]
+                          rounded-lg mx-auto
+                          #{'bg-sky-100 border border-sky-300' if is_today}") do
+
+                  # 日付
+                  content_tag(:div,
+                    date.day,
+                    class: "font-bold text-sm #{day_text_color(date)} #{'text-gray-400' if is_other_month}"
+                  ) +
+                  # 有効時間
+                  content_tag(:div,
+                    passed_block.call(date),
+                    class: "text-[10px] #{is_other_month ? 'text-gray-400' : 'text-gray-500'} mt-0.5 leading-tight"
+                  )
                 end
               end
             end.join.html_safe
