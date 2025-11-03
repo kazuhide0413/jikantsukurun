@@ -1,0 +1,41 @@
+<%# app/views/simple_calendar/_month_calendar.html.erb %>
+<%= raw(
+  content_tag(:div, class: "simple-calendar w-full") do
+    # 月タイトル
+    content_tag(:div, start_date.strftime("%Y年 %B"), class: "text-center text-lg font-semibold text-gray-800 mb-2") +
+
+    # 曜日ヘッダーと本体テーブル
+    content_tag(:table, class: "w-full table-fixed border-collapse text-sm text-center") do
+      # ヘッダー
+      content_tag(:thead) do
+        content_tag(:tr) do
+          %w(月 火 水 木 金 土 日).each_with_index.map do |day, i|
+            klass = case i
+              when 5 then "text-sky-500"
+              when 6 then "text-red-500"
+              else "text-gray-600"
+            end
+            content_tag(:th, day, class: "#{klass} pb-2")
+          end.join.html_safe
+        end
+      end +
+
+      # カレンダーの週ごと
+      content_tag(:tbody) do
+        date_range.each_slice(7).map do |week|
+          content_tag(:tr) do
+            week.map do |date|
+              is_today = (date == Date.current)
+              content_tag(:td, class: "align-top p-1") do
+                content_tag(:div, class: "flex flex-col items-center justify-center w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-lg mx-auto #{'bg-sky-100 border border-sky-300' if is_today}") do
+                  content_tag(:div, date.day, class: "font-bold text-sm #{day_text_color(date)}") +
+                  content_tag(:div, passed_block.call(date), class: "text-[10px] text-gray-500 mt-0.5 leading-tight")
+                end
+              end
+            end.join.html_safe
+          end
+        end.join.html_safe
+      end
+    end
+  end
+) %>
