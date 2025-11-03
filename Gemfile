@@ -73,3 +73,6 @@ gem "tailwindcss-rails", "~> 4.3"
 
 #devise導入
 gem "devise"
+
+#simple_calendar導入
+gem "simple_calendar"
