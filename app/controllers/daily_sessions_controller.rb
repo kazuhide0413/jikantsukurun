@@ -46,6 +46,29 @@ class DailySessionsController < ApplicationController
     redirect_to habits_path, notice: "おやすみなさい😴 有効時間：#{hours}時間#{minutes}分"
   end
 
+  # ------------------------------------------------------
+  # 📆 有効時間カレンダー（JSONで返す）
+  # ------------------------------------------------------
+  def index
+    # 今月の範囲を取得
+    start_date = Date.current.beginning_of_month
+    end_date   = Date.current.end_of_month
+
+    # 現在のユーザーのセッションを取得
+    sessions = current_user.daily_sessions
+                           .where(session_date: start_date..end_date)
+                           .order(:session_date)
+
+    # {"2025-11-01" => "2時間30分", "2025-11-02" => "記録なし"} のような形に整形
+    data = {}
+    (start_date..end_date).each do |date|
+      session = sessions.find { |s| s.session_date == date }
+      data[date.strftime("%Y-%m-%d")] = session&.formatted_effective_duration
+    end
+
+    render json: data
+  end
+
   private
 
   # ------------------------------------------------------
