@@ -46,6 +46,33 @@ class DailySessionsController < ApplicationController
     redirect_to habits_path, notice: "おやすみなさい😴 有効時間：#{hours}時間#{minutes}分"
   end
 
+  def index
+    # 今月の範囲
+    @start_date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
+    start_date  = @start_date.beginning_of_month
+    end_date    = @start_date.end_of_month
+
+    sessions = current_user.daily_sessions
+                           .where(session_date: start_date..end_date)
+                           .order(:session_date)
+
+    # ビュー用: 日付 => レコード
+    @sessions_by_date = sessions.index_by(&:session_date)
+
+    # JSON用: "YYYY-MM-DD" => "X時間Y分" or nil
+    data = {}
+    (start_date..end_date).each do |date|
+      s = @sessions_by_date[date]
+      data[date.strftime("%Y-%m-%d")] = s&.formatted_effective_duration
+    end
+
+    respond_to do |format|
+      format.html # ← カレンダーHTMLを表示
+      format.json { render json: data } # ← 既存のAPI
+    end
+  end
+
+
   private
 
   # ------------------------------------------------------

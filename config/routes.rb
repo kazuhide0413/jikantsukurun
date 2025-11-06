@@ -14,9 +14,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :daily_session, only: [], controller: "daily_sessions" do
-    post :return_home    # 帰宅ボタン
-    post :bedtime        # 就寝ボタン
+  resources :daily_sessions, only: [:index] do
+    collection do
+      post :return_home
+      post :bedtime
+    end
   end
 
   resource :settings, only: [:show] do

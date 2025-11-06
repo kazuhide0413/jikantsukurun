@@ -14,7 +14,7 @@
         <section class="mb-6 w-full">
           <% if @today_session&.return_home_at.blank? %>
             <!-- 帰宅前：押せる -->
-            <%= button_to "帰宅", return_home_daily_session_path,
+            <%= button_to "帰宅", return_home_daily_sessions_path,
                 method: :post,
                 class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black shadow-sm hover:bg-[#4eb3f7] transition-colors text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
           <% else %>
@@ -86,7 +86,7 @@
             <% target_ids = current_user.habits.pluck(:id) %>
             <% if @today_session.all_habits_completed_today?(target_ids) %>
               <!-- 全習慣完了後：押せる -->
-              <%= button_to "就寝", bedtime_daily_session_path,
+              <%= button_to "就寝", bedtime_daily_sessions_path,
                   method: :post,
                   class: "block w-full bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium text-black hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
             <% else %>
