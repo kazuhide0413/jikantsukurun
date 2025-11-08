@@ -1,6 +1,7 @@
 class HabitsController < ApplicationController
-  before_action :authenticate_user!  # Devise使用時
+  before_action :authenticate_user!
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
+  before_action :check_bedtime_lock, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @habits = current_user.habits
@@ -52,10 +53,16 @@ class HabitsController < ApplicationController
 
   def set_habit
     @habit = Habit.find_by(id: params[:id])
-
-    # 存在しない or 他人の習慣なら404
     if @habit.nil? || (@habit.user.present? && @habit.user != current_user)
       raise ActiveRecord::RecordNotFound, "Habit not found"
+    end
+  end
+
+  # 💤 共通フィルター：就寝後は編集禁止
+  def check_bedtime_lock
+    today_session = current_user.daily_sessions.find_by(session_date: Date.current)
+    if today_session&.bedtime_at.present?
+      redirect_to habits_path, alert: "本日は就寝済みのため、この操作はできません。"
     end
   end
 
