@@ -45,15 +45,32 @@
                     <%= habit.title %>
                   </button>
                 <% end %>
-
                 <button disabled
                   class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
                   + 習慣を追加
                 </button>
               </div>
             </div>
+
+          <% elsif @today_session&.bedtime_at.present? %>
+            <!-- 💤 就寝済み：押せない -->
+            <div class="opacity-50 cursor-not-allowed">
+              <div class="flex flex-col w-full [&>*+*]:mt-4">
+                <% @habits.each do |habit| %>
+                  <button disabled
+                    class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                    <%= habit.title %>
+                  </button>
+                <% end %>
+                <button disabled
+                  class="block w-full bg-gray-300 border border-gray-300 rounded-xl py-3 text-2xl font-medium text-black shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                  🔒 本日は就寝済みです
+                </button>
+              </div>
+            </div>
+
           <% else %>
-            <!-- 帰宅後：押せる -->
+            <!-- 🌞 帰宅後＆未就寝：押せる -->
             <div class="flex flex-col w-full [&>*+*]:mt-4">
               <% @habits.each do |habit| %>
                 <%= render partial: "habit_button", locals: { habit: habit } %>
