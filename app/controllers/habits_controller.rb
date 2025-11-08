@@ -1,13 +1,13 @@
 class HabitsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
-  before_action :check_bedtime_lock, only: [:new, :create, :edit, :update, :destroy]
+  before_action :prevent_modification_after_bedtime, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @habits = current_user.habits
-    @today_session = current_user.daily_sessions.find_or_create_by(session_date: Date.current)
+    @today_session = current_user.daily_sessions.find_or_create_by(session_date: DailySession.logical_today)
 
-    today = Date.current
+    today = DailySession.logical_today
     records = DailyHabitRecord
                 .where(record_date: today, habit_id: @habits.pluck(:id), is_completed: true)
                 .pluck(:habit_id)
@@ -16,7 +16,7 @@ class HabitsController < ApplicationController
 
   def show
     @habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
-    @today_record = @habit.daily_habit_records.find_by(record_date: Date.current)
+    @today_record = @habit.daily_habit_records.find_by(record_date: DailySession.logical_today)
   end
 
   def new
@@ -51,18 +51,20 @@ class HabitsController < ApplicationController
 
   private
 
+  # ------------------------------------------------------
+  # 🚫 「就寝後」は登録・編集・削除を禁止
+  # ------------------------------------------------------
+  def prevent_modification_after_bedtime
+    today_session = current_user.daily_sessions.find_by(session_date: DailySession.logical_today)
+    if today_session&.bedtime_at.present?
+      redirect_to habits_path, alert: "本日はすでに就寝済みのため、この操作はできません。"
+    end
+  end
+
   def set_habit
     @habit = Habit.find_by(id: params[:id])
     if @habit.nil? || (@habit.user.present? && @habit.user != current_user)
       raise ActiveRecord::RecordNotFound, "Habit not found"
-    end
-  end
-
-  # 💤 共通フィルター：就寝後は編集禁止
-  def check_bedtime_lock
-    today_session = current_user.daily_sessions.find_by(session_date: Date.current)
-    if today_session&.bedtime_at.present?
-      redirect_to habits_path, alert: "本日は就寝済みのため、この操作はできません。"
     end
   end
 
