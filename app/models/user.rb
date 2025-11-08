@@ -1,4 +1,3 @@
-# app/models/user.rb
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
@@ -16,8 +15,7 @@ class User < ApplicationRecord
   def copy_default_habits
     DefaultHabit.find_each do |template|
       habits.create!(
-        title: template.title,
-        is_default: true
+        title: template.title
       )
     end
   end
