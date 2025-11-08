@@ -1,6 +1,7 @@
 class HabitsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
+  before_action :check_bedtime_lock, only: [:new, :create, :edit, :update, :destroy]
 
   def index
     @habits = current_user.habits
@@ -18,26 +19,11 @@ class HabitsController < ApplicationController
     @today_record = @habit.daily_habit_records.find_by(record_date: Date.current)
   end
 
-  # ✅ newアクションに就寝チェックを追加
   def new
-    today_session = current_user.daily_sessions.find_by(session_date: Date.current)
-
-    if today_session&.bedtime_at.present?
-      redirect_to habits_path, alert: "本日は就寝済みのため、新しい習慣は登録できません。"
-    else
-      @habit = Habit.new
-    end
+    @habit = Habit.new
   end
 
   def create
-    today_session = current_user.daily_sessions.find_by(session_date: Date.current)
-
-    # 💤 就寝済みなら登録禁止
-    if today_session&.bedtime_at.present?
-      redirect_to habits_path, alert: "本日はすでに就寝済みのため、新しい習慣は登録できません。"
-      return
-    end
-
     @habit = current_user.habits.build(habit_params)
     if @habit.save
       redirect_to habits_path, notice: "新しい習慣を追加しました！"
@@ -69,6 +55,14 @@ class HabitsController < ApplicationController
     @habit = Habit.find_by(id: params[:id])
     if @habit.nil? || (@habit.user.present? && @habit.user != current_user)
       raise ActiveRecord::RecordNotFound, "Habit not found"
+    end
+  end
+
+  # 💤 共通フィルター：就寝後は編集禁止
+  def check_bedtime_lock
+    today_session = current_user.daily_sessions.find_by(session_date: Date.current)
+    if today_session&.bedtime_at.present?
+      redirect_to habits_path, alert: "本日は就寝済みのため、この操作はできません。"
     end
   end
 
