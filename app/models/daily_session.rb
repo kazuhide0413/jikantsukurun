@@ -12,24 +12,21 @@ class DailySession < ApplicationRecord
     last_completed_at = user.daily_habit_records
                             .where(record_date: session_date, is_completed: true)
                             .maximum(:completed_at)
-    return nil unless bedtime_at && last_completed_at
+
+    # ✅ どちらかがnilなら安全に0を入れて終了
+    return update!(effective_duration: 0) if last_completed_at.nil? || bedtime_at.nil?
 
     duration = (bedtime_at - last_completed_at).to_i
     update!(effective_duration: duration)
     duration
   end
 
-  # ------------------------------------------------------
   # 🏠 帰宅後かつ未就寝なら true
-  # （＝習慣ボタンが押せる状態）
-  # ------------------------------------------------------
   def can_record_habits?
     return_home_at.present? && bedtime_at.blank?
   end
 
-  # ------------------------------------------------------
   # ✅ 今日の全習慣が完了済みかどうか
-  # ------------------------------------------------------
   def all_habits_completed_today?(target_habit_ids)
     done_ids = user.daily_habit_records
                     .where(record_date: session_date, is_completed: true)
@@ -39,9 +36,7 @@ class DailySession < ApplicationRecord
     (target_habit_ids - done_ids).empty?
   end
 
-  # ------------------------------------------------------
-  # ⏱ 有効時間を表示用フォーマットに変換
-  # ------------------------------------------------------
+  # ⏱ 表示用フォーマット
   def formatted_effective_duration
     return nil unless effective_duration.present?
     hours = effective_duration / 3600
