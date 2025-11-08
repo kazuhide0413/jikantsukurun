@@ -325,6 +325,7 @@ GEM
     tailwindcss-ruby (4.1.13-x86_64-linux-gnu)
     tailwindcss-ruby (4.1.13-x86_64-linux-musl)
     thor (1.4.0)
+    timecop (0.9.10)
     timeout (0.4.3)
     turbo-rails (2.0.16)
       actionpack (>= 7.1.0)
@@ -390,6 +391,7 @@ DEPENDENCIES
   stimulus-rails
   tailwindcss-rails (~> 4.3)
   tailwindcss-ruby (~> 4.1)
+  timecop
   turbo-rails
   tzinfo-data
   web-console
