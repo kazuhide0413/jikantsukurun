@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -10,4 +8,15 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
+  after_create :copy_default_habits
+
+  private
+
+  def copy_default_habits
+    DefaultHabit.find_each do |template|
+      habits.create!(
+        title: template.title
+      )
+    end
+  end
 end

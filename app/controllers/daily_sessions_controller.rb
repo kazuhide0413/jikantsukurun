@@ -35,8 +35,13 @@ class DailySessionsController < ApplicationController
       return
     end
 
-    # 就寝時刻を保存して有効時間を計算
+    # --------------------------------------------------
+    # ✅ 就寝時刻を登録（＋最新状態を再読込）
+    # --------------------------------------------------
     daily_session.update!(bedtime_at: Time.current)
+    daily_session.reload
+
+    # ✅ 有効時間を再計算
     daily_session.calculate_effective_duration!
 
     dur = daily_session.effective_duration.to_i

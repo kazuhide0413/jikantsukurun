@@ -3,16 +3,13 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: [:show, :edit, :update, :destroy]
 
   def index
-    @habits = Habit.where(user_id: [current_user.id, nil])
+    @habits = current_user.habits
     @today_session = current_user.daily_sessions.find_or_create_by(session_date: Date.current)
 
     today = Date.current
-
-    # ✅ 現在のユーザーの習慣に対応する記録（user_idは固定しない）
     records = DailyHabitRecord
                 .where(record_date: today, habit_id: @habits.pluck(:id), is_completed: true)
                 .pluck(:habit_id)
-
     @completed_habit_ids = records
   end
 
