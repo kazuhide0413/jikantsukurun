@@ -1,4 +1,4 @@
-## サービス名（仮）
+## サービス名
 
 時間作るん
 
@@ -33,13 +33,16 @@
 
 ## サービス利用のイメージ（例：帰宅後のサラリーマン）
 
-1. 初期設定で**毎日必ずする習慣**（自炊、洗濯、風呂、歯磨き等）を登録します。
-2. 働いて家に帰宅したら、サービスを開いて「帰宅ボタン」を押します。
-3. サービスを開いて、習慣をやり終える度に「登録した習慣ボタン」を押します。
-4. 登録したすべての習慣が終わります。
-5. 就寝するときに、「就寝ボタン」を押します。
-6. 5.で押された時刻と4.で押された時刻の差分は有効に使える時間だと考えてます。
-7. **無駄な時間を減らせたことにより生まれた有効に使える時間を、カレンダーで見れるようにします。**
+1. ユーザー登録をします。
+2. 習慣一覧画面へ移動します。
+3. 初期設定で**毎日必ずする習慣**（洗濯、風呂、歯磨き）が登録されています。追加で自分の嫌な習慣も登録可能です。
+4. 働いて家に帰宅したら、習慣一覧画面にある「帰宅」ボタンを押します。
+5. 「帰宅」ボタンを押すと、日々の習慣（毎日必ずする習慣、自分が登録した習慣）が押せるようになります。
+6. 押すと、その習慣の詳細が出てきて、「（その習慣を）やった」ボタンがあるので、やったら押します。
+7. 登録したすべての習慣の「やった」ボタンを押します。
+8. すべての習慣の「やった」ボタンを押すと、「就寝」ボタンが押せるようになるので、就寝するときに押します。
+9. 7.で押された習慣のうち、最も遅く「やった」ボタンが押された時刻と、8.で押された時刻の差分は有効に使える時間だと考えてます。
+10. **無駄な時間を減らせたことにより生まれた有効に使える時間を、カレンダーで見ることができます。**
 
 ## ユーザーの獲得について
 
@@ -49,7 +52,8 @@
 ## サービスの差別化ポイント・推しポイント
 
 1. 差別化ポイント  
-習慣化サービスが多くありますが、本サービスでは**毎日必ずする習慣**（自炊、洗濯、風呂、歯磨き等）に重きをおいて習慣化します。
+習慣化サービスが多くありますが、本サービスでは**毎日必ずする習慣**に重きをおいて習慣化します。
+本サービスは、ユーザー登録時、自動的に毎日必ずする習慣（洗濯、風呂、歯磨き）が登録されます。（不要であれば削除可能です。）
 
 | 特徴 | 時間作るん（本サービス） | 競合Aサービス | 競合Bサービス |
 | - | - | - | - |
@@ -97,7 +101,7 @@
 | - | - |
 | バックエンド | Ruby on Rails 7.2.2.1 / Ruby 3.2.3 |
 | フロントエンド | JavaScript / Stimulus |
-| CSS フレームワーク | Tailwind CSS / daisyUI |
+| CSS フレームワーク | Tailwind CSS |
 | 環境構築 | Docker |
 | インフラ | Render |
 | データベース | PostgreSQL |
@@ -109,50 +113,59 @@ https://www.figma.com/design/AB77xgxg39nGXgD8SHgSEi/%E6%99%82%E9%96%93%E4%BD%9C%
 
 ## ER図
 
-[![Image from Gyazo](https://i.gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078.png)](https://gyazo.com/32dd59e56e86bb7136dc7db3ac9e8078)
-
 ```mermaid
 erDiagram
-	direction TB
-	USERS {
-		int id PK "(NOTNULL)"
-		string name "ユーザー名(NOTNULL)"
-		string email "メールアドレス(NOTNULL)"
-		string encrypted_password "暗号化済みパスワード(NOTNULL)"
-		string reset_password_token "トークン保存"
-		datetime reset_password_sent_at "リセット指示送信日時"
-		datetime remember_created_at "ログイン状態保持選択日時"
-		datetime created_at "作成日時(NOTNULL)"
-		datetime updated_at "更新日時(NOTNULL)"
-	}
-	HABITS {
-		int id PK "(NOTNULL)"
-		int user_id FK "ユーザーID"
-		string title "習慣名(NOTNULL)"
-		boolean is_default "初期デフォルト習慣かどうか"
-		datetime created_at "作成日時(NOTNULL)"
-		datetime updated_at "更新日時(NOTNULL)"
-	}
+    direction TB
+
+    USERS {
+        int id PK "(NOTNULL)"
+        string name "ユーザー名(NOTNULL)"
+        string email "メールアドレス(NOTNULL)"
+        string encrypted_password "暗号化済みパスワード(NOTNULL)"
+        string reset_password_token
+        datetime reset_password_sent_at
+        datetime remember_created_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    HABITS {
+        int id PK "(NOTNULL)"
+        int user_id FK
+        string title "習慣名(NOTNULL)"
+        datetime created_at
+        datetime updated_at
+    }
+
     DAILY_HABIT_RECORDS {
         int id PK "(NOTNULL)"
-        int user_id FK "ユーザーID(NOTNULL)"
-        int habit_id FK "習慣ID(NOTNULL)"
+        int user_id FK "(NOTNULL)"
+        int habit_id FK "(NOTNULL)"
         date record_date "記録日(NOTNULL)"
-        boolean is_completed "完了したかどうか"
+        boolean is_completed "完了したか"
         datetime completed_at "完了時刻"
-        datetime created_at "作成日時(NOTNULL)"
-        datetime updated_at "更新日時(NOTNULL)"
+        datetime created_at
+        datetime updated_at
     }
+
     DAILY_SESSIONS {
         int id PK "(NOTNULL)"
-        int user_id FK "ユーザーID(NOTNULL)"
+        int user_id FK "(NOTNULL)"
         date session_date "セッション日付(NOTNULL)"
         datetime return_home_at "帰宅時刻"
         datetime bedtime_at "就寝時刻"
-        interval effective_duration "有効に使えた時間"
-        datetime created_at "作成日時(NOTNULL)"
-        datetime updated_at "更新日時(NOTNULL)"
+        int effective_duration "有効時間(分単位)"
+        datetime created_at
+        datetime updated_at
     }
+
+    DEFAULT_HABITS {
+        int id PK "(NOTNULL)"
+        string title "共通デフォルト習慣名(NOTNULL)"
+        datetime created_at
+        datetime updated_at
+    }
+
     USERS ||--o{ HABITS : ""
     USERS ||--o{ DAILY_HABIT_RECORDS : ""
     USERS ||--o{ DAILY_SESSIONS : ""
