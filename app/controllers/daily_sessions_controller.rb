@@ -20,28 +20,20 @@ class DailySessionsController < ApplicationController
   def bedtime
     daily_session = find_today_session
 
-    # 帰宅していないのに就寝ボタンを押した場合
     unless daily_session.return_home_at.present?
       redirect_to habits_path, alert: "先に『帰宅』を記録してください。"
       return
     end
 
-    # ユーザーの全習慣を取得
     target_ids = current_user.habits.pluck(:id)
 
-    # 未完了の習慣がある場合は就寝できない
     unless daily_session.all_habits_completed_today?(target_ids)
       redirect_to habits_path, alert: "未完了の習慣があります。すべて完了してから『就寝』してください。"
       return
     end
 
-    # --------------------------------------------------
-    # ✅ 就寝時刻を登録（＋最新状態を再読込）
-    # --------------------------------------------------
     daily_session.update!(bedtime_at: Time.current)
     daily_session.reload
-
-    # ✅ 有効時間を再計算
     daily_session.calculate_effective_duration!
 
     dur = daily_session.effective_duration.to_i
@@ -52,7 +44,6 @@ class DailySessionsController < ApplicationController
   end
 
   def index
-    # 今月の範囲
     @start_date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
     start_date  = @start_date.beginning_of_month
     end_date    = @start_date.end_of_month
@@ -61,10 +52,8 @@ class DailySessionsController < ApplicationController
                            .where(session_date: start_date..end_date)
                            .order(:session_date)
 
-    # ビュー用: 日付 => レコード
     @sessions_by_date = sessions.index_by(&:session_date)
 
-    # JSON用: "YYYY-MM-DD" => "X時間Y分" or nil
     data = {}
     (start_date..end_date).each do |date|
       s = @sessions_by_date[date]
@@ -72,18 +61,20 @@ class DailySessionsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # ← カレンダーHTMLを表示
-      format.json { render json: data } # ← 既存のAPI
+      format.html
+      format.json { render json: data }
     end
   end
-
 
   private
 
   # ------------------------------------------------------
-  # 📅 今日のセッションを取得（なければ作成）
+  # 📅 今日のセッションを取得（深夜も前日扱い対応）
   # ------------------------------------------------------
   def find_today_session
-    DailySession.find_or_create_by!(user: current_user, session_date: Date.current)
+    DailySession.find_or_create_by!(
+      user: current_user,
+      session_date: DailySession.logical_today
+    )
   end
 end

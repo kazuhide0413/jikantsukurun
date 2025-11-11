@@ -21,8 +21,7 @@ class DailySession < ApplicationRecord
   end
 
   # ------------------------------------------------------
-  # 🏠 帰宅後かつ未就寝なら true
-  # （＝習慣ボタンが押せる状態）
+  # 🏠 帰宅後かつ未就寝なら true（＝習慣ボタンが押せる状態）
   # ------------------------------------------------------
   def can_record_habits?
     return_home_at.present? && bedtime_at.blank?
@@ -36,7 +35,6 @@ class DailySession < ApplicationRecord
                     .where(record_date: session_date, is_completed: true)
                     .distinct
                     .pluck(:habit_id)
-
     (target_habit_ids - done_ids).empty?
   end
 
@@ -51,11 +49,11 @@ class DailySession < ApplicationRecord
   end
 
   # ------------------------------------------------------
-  # 📅 論理的な「今日」を返す（深夜も含めて扱いやすく）
+  # 📅 深夜帯を前日扱いにする「論理的な今日」
   # ------------------------------------------------------
-  def self.logical_today
+  def self.logical_today(cutoff_hour = 4)
     now = Time.zone.now
-    # 深夜 0〜4時は前日扱いにする
-    now.hour < 5 ? (now - 1.day).to_date : now.to_date
+    # 深夜0〜3時台は前日扱い
+    now.hour < cutoff_hour ? (now - 1.day).to_date : now.to_date
   end
 end
