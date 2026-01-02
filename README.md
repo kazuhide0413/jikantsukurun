@@ -142,7 +142,7 @@ erDiagram
         int user_id FK "(NOTNULL)"
         int habit_id FK "(NOTNULL)"
         date record_date "記録日(NOTNULL)"
-        boolean is_completed "完了したか"
+        boolean is_completed "完了したか(NOTNULL)"
         datetime completed_at "完了時刻"
         datetime created_at
         datetime updated_at
