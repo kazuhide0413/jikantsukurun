@@ -1,16 +1,60 @@
-<h2>Forgot your password?</h2>
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>パスワードをお忘れの場合</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+  <body class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+    <main class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+      <!-- タイトル（登録画面と完全同一） -->
+      <header class="mt-10">
+        <h1 class="font-medium text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+          パスワードをお忘れの場合
+        </h1>
+      </header>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <!-- 説明（登録画面と同じ雰囲気・テキストサイズ揃え） -->
+      <section class="w-full">
+        <p class="text-base text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica] leading-relaxed">
+          パスワード再設定用の<br />
+          メールアドレスを入力してください
+        </p>
+      </section>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
+      <!-- フォーム（spacing / text-left / input UI 完全一致） -->
+      <%= form_for(resource,
+                  as: resource_name,
+                  url: password_path(resource_name),
+                  html: { method: :post, class: "w-full space-y-5 text-left" }) do |f| %>
 
-<%= render "devise/shared/links" %>
+        <!-- エラーメッセージ（登録画面同一配置） -->
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <!-- メールアドレス -->
+        <div>
+          <%= f.label :email, "メールアドレス",
+              class: "block mb-1 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+
+          <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              required: true,
+              class: "w-full px-3 py-2 rounded-lg border border-gray-300 bg-white
+                      focus:outline-none focus:ring-2 focus:ring-[#67c2fa]
+                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+        </div>
+
+        <!-- 送信ボタン（登録画面と完全一致 → text-2xl / py-3 / rounded-xl / black text） -->
+        <div class="pt-4">
+          <%= f.submit "再設定用リンクを送信",
+              class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7]
+                      rounded-xl py-3 text-2xl font-medium text-black
+                      transition-colors [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+        </div>
+      <% end %>
+    </main>
+  </body>
+</html>
