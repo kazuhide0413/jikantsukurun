@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # 開発環境でのみメール確認用画面を有効化
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+
   ## devise認証
   devise_for :users, controllers: {
     registrations: 'users/registrations',

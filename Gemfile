@@ -62,6 +62,10 @@ group :development do
   gem "pry-byebug"
   gem "pry-doc"
   gem "pry-rails"
+
+  #letter_opener系
+  gem "letter_opener"
+  gem "letter_opener_web"
 end
 
 group :test do
