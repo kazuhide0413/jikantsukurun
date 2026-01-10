@@ -314,4 +314,9 @@ Devise.setup do |config|
   config.omniauth :google_oauth2,
                   ENV['GOOGLE_CLIENT_ID'],
                   ENV['GOOGLE_CLIENT_SECRET']
+
+  config.omniauth :line_v2_1,
+                  ENV["LINE_CHANNEL_ID"],
+                  ENV["LINE_CHANNEL_SECRET"],
+                  scope: "profile openid email"
 end
