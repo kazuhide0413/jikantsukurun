@@ -20,7 +20,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:alert] = @user.errors.full_messages.to_sentence if @user.errors.any?
       redirect_to new_user_registration_url
     end
-  end
+    rescue => e
+      Rails.logger.warn("[OmniAuth] #{provider} failed: #{e.class} #{e.message}")
+      redirect_to new_user_session_path, alert: 'ログインに失敗しました'
+    end
 
   def failure
     redirect_to root_path, alert: 'Googleログインがキャンセルされました'

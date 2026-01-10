@@ -13,12 +13,37 @@ class User < ApplicationRecord
   after_create :copy_default_habits
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.name = auth.info.name.presence || auth.info.email
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.avatar_url = auth.info.image if user.respond_to?(:avatar_url) && auth.info.image
+    provider = auth.provider
+    uid      = auth.uid
+    email    = auth.info.email&.downcase
+
+    raise "Email not provided by OAuth provider" if email.blank?
+
+    # ① provider + uid で既に紐付いているユーザー
+    user = find_by(provider: provider, uid: uid)
+    return user if user.present?
+
+    # ② email が同じ既存ユーザーがいれば紐付ける
+    user = find_by(email: email)
+    if user.present?
+      user.update!(
+        provider: provider,
+        uid: uid,
+        name: user.name.presence || auth.info.name.presence || email,
+        avatar_url: (auth.info.image if user.respond_to?(:avatar_url) && auth.info.image)
+      )
+      return user
     end
+
+    # ③ 完全に新規ユーザー
+    create!(
+      provider: provider,
+      uid: uid,
+      email: email,
+      name: auth.info.name.presence || email,
+      password: Devise.friendly_token[0, 20],
+      avatar_url: (auth.info.image if respond_to?(:avatar_url) && auth.info.image)
+    )
   end
 
   def self.create_unique_string
