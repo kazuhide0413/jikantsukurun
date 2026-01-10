@@ -76,7 +76,8 @@
         <% end %>
 
         <!-- LINEログイン -->
-        <%= link_to "#",
+        <%= button_to user_line_v2_1_omniauth_authorize_path,
+            data: { turbo: false },
             class: "w-full flex items-center justify-center gap-4
                     bg-[#06C755] hover:bg-[#05B44B]
                     rounded-xl py-3
