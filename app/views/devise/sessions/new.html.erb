@@ -59,7 +59,8 @@
       <!-- Google / LINE ログイン -->
       <div class="w-full space-y-4">
         <!-- Googleログイン -->
-        <%= link_to user_google_oauth2_omniauth_authorize_path,
+        <%= button_to user_google_oauth2_omniauth_authorize_path,
+            data: { turbo: false },
             class: "w-full flex items-center justify-center gap-4
                     bg-[#4285F4] hover:bg-[#357AE8]
                     rounded-xl py-3
