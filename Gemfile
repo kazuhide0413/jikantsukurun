@@ -86,3 +86,10 @@ gem "simple_calendar"
 
 #祝日判定（日本）
 gem "holiday_jp"
+
+# Google OAuth
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
+
+# 環境変数管理
+gem "dotenv-rails"

@@ -49,6 +49,49 @@
         </div>
       <% end %>
 
+      <!-- 区切り -->
+      <div class="w-full flex items-center gap-4">
+        <div class="flex-1 h-px bg-gray-300"></div>
+        <span class="text-sm text-gray-500">または</span>
+        <div class="flex-1 h-px bg-gray-300"></div>
+      </div>
+
+      <!-- Google / LINE ログイン -->
+      <div class="w-full space-y-4">
+        <!-- Googleログイン -->
+        <%= button_to user_google_oauth2_omniauth_authorize_path,
+            data: { turbo: false },
+            class: "w-full flex items-center justify-center gap-4
+                    bg-[#4285F4] hover:bg-[#357AE8]
+                    rounded-xl py-3
+                    text-2xl font-medium text-white
+                    transition-colors
+                    [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" do %>
+
+          <%= image_tag "google.png",
+              alt: "Google",
+              class: "w-7 h-7 bg-white rounded-full p-1" %>
+
+          <span>Googleでログイン</span>
+        <% end %>
+
+        <!-- LINEログイン -->
+        <%= link_to "#",
+            class: "w-full flex items-center justify-center gap-4
+                    bg-[#06C755] hover:bg-[#05B44B]
+                    rounded-xl py-3
+                    text-2xl font-medium text-white
+                    transition-colors
+                    [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" do %>
+
+          <%= image_tag "line.png",
+              alt: "LINE",
+              class: "w-7 h-7 bg-white rounded p-1" %>
+
+          <span>LINEでログイン</span>
+        <% end %>
+      </div>
+
       <!-- 部分テンプレート化 -->
       <%= render "devise/shared/links" %>
     </main>
