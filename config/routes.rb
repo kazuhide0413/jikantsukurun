@@ -30,8 +30,9 @@ Rails.application.routes.draw do
   resource :settings, only: [:show] do
     get :edit_name
     patch :update_name
-    # 将来的にLINE通知設定を追加
-    # get :line
+
+    # LINE通知設定
+    get :line_notification
   end
 
   ## 静的ページ
