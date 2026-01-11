@@ -91,5 +91,8 @@ gem "holiday_jp"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
 
+# LINE Oauth
+gem "omniauth-line-v2_1"
+
 # 環境変数管理
 gem "dotenv-rails"
