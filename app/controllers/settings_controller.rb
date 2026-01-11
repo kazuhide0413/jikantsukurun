@@ -33,6 +33,17 @@ class SettingsController < ApplicationController
     redirect_to line_notification_settings_path, notice: "LINE通知をOFFにしました"
   end
 
+  def generate_line_link_token
+    token = SecureRandom.alphanumeric(8).upcase
+
+    current_user.update!(
+      line_link_token: token,
+      line_link_token_generated_at: Time.zone.now
+    )
+
+    redirect_to line_notification_settings_path, notice: "LINEで連携コードを送ってください：#{token}"
+  end
+
   private
 
   def user_params
