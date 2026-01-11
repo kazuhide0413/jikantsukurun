@@ -31,8 +31,9 @@ Rails.application.routes.draw do
     get :edit_name
     patch :update_name
 
-    # LINE通知設定
     get :line_notification
+    patch :enable_line_notification
+    patch :disable_line_notification
   end
 
   ## 静的ページ
