@@ -1,0 +1,48 @@
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
+  <div class="container mx-auto pt-3">
+    <div class="flex justify-center">
+      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+
+        <!-- タイトル -->
+        <section aria-labelledby="line-notification-title">
+          <h1 id="line-notification-title"
+              class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+            有効に使えた時間を<br>
+            毎朝8時にLINEで通知します
+          </h1>
+        </section>
+
+        <!-- 通知ON -->
+        <section class="w-full">
+          <button
+            type="button"
+            class="block w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl font-medium text-black
+                   transition-colors shadow-sm text-center
+                   [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
+            通知ON
+          </button>
+        </section>
+
+        <!-- 通知OFF -->
+        <section class="w-full">
+          <button
+            type="button"
+            class="block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-2xl font-medium text-black
+                   transition-colors shadow-sm text-center
+                   [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
+            通知OFF
+          </button>
+        </section>
+
+        <!-- 戻るボタン -->
+        <section class="w-full">
+          <%= link_to "戻る", settings_path,
+              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+                      hover:bg-gray-100 transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
