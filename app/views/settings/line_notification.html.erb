@@ -14,24 +14,22 @@
 
         <!-- 通知ON -->
         <section class="w-full">
-          <button
-            type="button"
-            class="block w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl font-medium text-black
-                   transition-colors shadow-sm text-center
-                   [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
-            通知ON
-          </button>
+          <%= button_to "通知ON",
+              enable_line_notification_settings_path,
+              method: :patch,
+              class: "block w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl font-medium text-black
+                      transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
         </section>
 
         <!-- 通知OFF -->
         <section class="w-full">
-          <button
-            type="button"
-            class="block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-2xl font-medium text-black
-                   transition-colors shadow-sm text-center
-                   [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
-            通知OFF
-          </button>
+          <%= button_to "通知OFF",
+              disable_line_notification_settings_path,
+              method: :patch,
+              class: "block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-2xl font-medium text-black
+                      transition-colors shadow-sm text-center
+                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
         </section>
 
         <!-- 戻るボタン -->
