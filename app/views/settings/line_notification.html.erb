@@ -12,30 +12,72 @@
           </h1>
         </section>
 
-        <!-- 通知ON -->
+        <!-- LINE連携ボタン（状態で切り替え） -->
+        <section class="w-full">
+          <% if @user.line_user_id.present? %>
+            <!-- 連携済み -->
+            <button
+              type="button"
+              disabled
+              class="block w-full bg-white border border-gray-300 rounded-xl py-3
+                     text-2xl font-medium text-black
+                     cursor-default shadow-sm text-center
+                     [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+              LINE連携済み
+            </button>
+          <% else %>
+            <!-- 未連携 -->
+            <button
+              type="button"
+              disabled
+              class="w-full flex items-center justify-center gap-4
+                     bg-[#06C755] hover:bg-[#05B44B]
+                     rounded-xl py-3
+                     text-2xl font-medium text-white
+                     cursor-not-allowed
+                     transition-colors
+                     shadow-sm
+                     [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
+
+              <%= image_tag "line.png",
+                  alt: "LINE",
+                  class: "w-7 h-7 bg-white rounded p-1" %>
+
+              <span>LINE連携をする</span>
+            </button>
+          <% end %>
+        </section>
+
+        <!-- 通知ON / OFF（連携済みなら押せる、未連携なら押せない） -->
         <section class="w-full">
           <%= button_to "通知ON",
               enable_line_notification_settings_path,
               method: :patch,
-              class: "block w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl font-medium text-black
+              disabled: !@user.line_user_id.present?,
+              class: "block w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3
+                      text-2xl font-medium text-black
                       transition-colors shadow-sm text-center
-                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]
+                      #{'opacity-50 cursor-not-allowed hover:bg-[#67c2fa]' unless @user.line_user_id.present?}" %>
         </section>
 
-        <!-- 通知OFF -->
         <section class="w-full">
           <%= button_to "通知OFF",
               disable_line_notification_settings_path,
               method: :patch,
-              class: "block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-2xl font-medium text-black
+              disabled: !@user.line_user_id.present?,
+              class: "block w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3
+                      text-2xl font-medium text-black
                       transition-colors shadow-sm text-center
-                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+                      [font-family:'Rounded_Mplus_1c-Medium',Helvetica]
+                      #{'opacity-50 cursor-not-allowed hover:bg-[#ff0000]' unless @user.line_user_id.present?}" %>
         </section>
 
         <!-- 戻るボタン -->
         <section class="w-full">
           <%= link_to "戻る", settings_path,
-              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+              class: "block w-full bg-white border border-gray-300 rounded-xl py-3
+                      text-2xl text-black font-medium
                       hover:bg-gray-100 transition-colors shadow-sm text-center
                       [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
         </section>
