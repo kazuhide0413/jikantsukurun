@@ -26,25 +26,31 @@
               LINE連携済み
             </button>
           <% else %>
-            <!-- 未連携 -->
-            <button
-              type="button"
-              disabled
-              class="w-full flex items-center justify-center gap-4
-                     bg-[#06C755] hover:bg-[#05B44B]
-                     rounded-xl py-3
-                     text-2xl font-medium text-white
-                     cursor-not-allowed
-                     transition-colors
-                     shadow-sm
-                     [font-family:'Rounded_Mplus_1c-Medium',Helvetica]">
+            <!-- 未連携：押すと連携コードを発行 -->
+            <%= button_to generate_line_link_token_settings_path,
+                method: :patch,
+                class: "w-full flex items-center justify-center gap-4
+                        bg-[#06C755] hover:bg-[#05B44B]
+                        rounded-xl py-3
+                        text-2xl font-medium text-white
+                        transition-colors
+                        shadow-sm
+                        [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" do %>
 
               <%= image_tag "line.png",
                   alt: "LINE",
                   class: "w-7 h-7 bg-white rounded p-1" %>
 
               <span>LINE連携をする</span>
-            </button>
+            <% end %>
+
+            <% if @user.line_link_token.present? %>
+              <div class="mt-4 w-full bg-white border border-gray-300 rounded-xl py-3
+                          text-2xl text-black text-center shadow-sm
+                          [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                <%= @user.line_link_token %>
+              </div>
+            <% end %>
           <% end %>
         </section>
 
