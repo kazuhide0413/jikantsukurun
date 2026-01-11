@@ -23,6 +23,16 @@ class SettingsController < ApplicationController
     @user = current_user
   end
 
+  def enable_line_notification
+    current_user.update!(line_notify_enabled: true)
+    redirect_to line_notification_settings_path, notice: "LINE通知をONにしました"
+  end
+
+  def disable_line_notification
+    current_user.update!(line_notify_enabled: false)
+    redirect_to line_notification_settings_path, notice: "LINE通知をOFFにしました"
+  end
+
   private
 
   def user_params
