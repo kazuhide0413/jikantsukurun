@@ -34,7 +34,10 @@ Rails.application.routes.draw do
     get :line_notification
     patch :enable_line_notification
     patch :disable_line_notification
+    patch :generate_line_link_token
   end
+
+  post "/line/webhook", to: "line_webhook#create"
 
   ## 静的ページ
   get "guide", to: "guide#index"
