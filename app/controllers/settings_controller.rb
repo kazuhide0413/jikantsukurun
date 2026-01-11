@@ -2,7 +2,6 @@ class SettingsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    # 設定一覧（ユーザー情報を使う場合に備えてセット）
     @user = current_user
   end
 
@@ -18,6 +17,10 @@ class SettingsController < ApplicationController
       flash.now[:alert] = "更新に失敗しました。"
       render :edit_name, status: :unprocessable_entity
     end
+  end
+
+  def line_notification
+    @user = current_user
   end
 
   private
