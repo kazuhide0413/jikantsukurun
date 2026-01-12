@@ -41,7 +41,7 @@ class LineWebhookController < ApplicationController
   private
 
   def valid_signature?(body, signature)
-    secret = ENV.fetch("LINE_MESSAGING_CHANNEL_SECRET", "")
+    secret = ENV.fetch("LINE_CHANNEL_SECRET", "")
     return false if secret.blank? || signature.blank?
 
     hash = OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha256"), secret, body)
