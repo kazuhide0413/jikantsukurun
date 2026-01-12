@@ -15,12 +15,12 @@
           ユーザー名編集
         <% end %>
 
-        <!-- LINE通知設定（将来的に有効化） -->
-        <button disabled
-          class="block w-full bg-gray-200 border border-gray-300 rounded-xl py-3 text-xl font-medium text-gray-500
-                 cursor-not-allowed shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          LINE通知設定（準備中）
-        </button>
+        <!-- LINE通知設定 -->
+        <%= link_to line_notification_settings_path,
+            class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                    hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+            LINE通知設定
+        <% end %>
 
         <!-- ログアウトボタン -->
         <%= link_to "ログアウト", destroy_user_session_path,
