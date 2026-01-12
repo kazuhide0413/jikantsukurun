@@ -26,10 +26,9 @@
               LINE連携済み
             </button>
           <% else %>
-            <!-- 未連携：押すとコード発行→LINEに移動（入力済み） -->
+            <!-- 未連携：押すと連携コードを発行 -->
             <%= button_to generate_line_link_token_settings_path,
                 method: :patch,
-                data: { turbo: false },
                 class: "w-full flex items-center justify-center gap-4
                         bg-[#06C755] hover:bg-[#05B44B]
                         rounded-xl py-3
@@ -45,13 +44,17 @@
               <span>LINE連携をする</span>
             <% end %>
 
-            <p class="mt-3 text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-              ※ ボタンを押すとLINEが開き、コードが入力された状態になります。送信してください。
-            </p>
+            <% if @user.line_link_token.present? %>
+              <div class="mt-4 w-full bg-white border border-gray-300 rounded-xl py-3
+                          text-2xl text-black text-center shadow-sm
+                          [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+                <%= @user.line_link_token %>
+              </div>
+            <% end %>
           <% end %>
         </section>
 
-        <!-- 通知ON -->
+        <!-- 通知ON / OFF（連携済みなら押せる、未連携なら押せない） -->
         <section class="w-full">
           <%= button_to "通知ON",
               enable_line_notification_settings_path,
@@ -64,7 +67,6 @@
                       #{'opacity-50 cursor-not-allowed hover:bg-[#67c2fa]' unless @user.line_user_id.present?}" %>
         </section>
 
-        <!-- 通知OFF -->
         <section class="w-full">
           <%= button_to "通知OFF",
               disable_line_notification_settings_path,
