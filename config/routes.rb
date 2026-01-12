@@ -30,14 +30,9 @@ Rails.application.routes.draw do
   resource :settings, only: [:show] do
     get :edit_name
     patch :update_name
-
-    get :line_notification
-    patch :enable_line_notification
-    patch :disable_line_notification
-    patch :generate_line_link_token
+    # 将来的にLINE通知設定を追加
+    # get :line
   end
-
-  post "/line/webhook", to: "line_webhook#create"
 
   ## 静的ページ
   get "guide", to: "guide#index"
