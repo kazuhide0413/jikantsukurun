@@ -41,7 +41,10 @@ class SettingsController < ApplicationController
       line_link_token_generated_at: Time.zone.now
     )
 
-    redirect_to line_notification_settings_path, notice: "LINEで連携コードを送ってください：#{token}"
+    basic_id = ENV.fetch("LINE_OFFICIAL_BASIC_ID")
+    line_url = "https://line.me/R/oaMessage/#{basic_id}/?#{CGI.escape(token)}"
+
+    redirect_to line_url, allow_other_host: true
   end
 
   private
