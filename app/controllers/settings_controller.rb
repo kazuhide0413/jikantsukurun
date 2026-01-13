@@ -2,6 +2,7 @@ class SettingsController < ApplicationController
   before_action :authenticate_user!
 
   def show
+    # 設定一覧（ユーザー情報を使う場合に備えてセット）
     @user = current_user
   end
 
@@ -17,31 +18,6 @@ class SettingsController < ApplicationController
       flash.now[:alert] = "更新に失敗しました。"
       render :edit_name, status: :unprocessable_entity
     end
-  end
-
-  def line_notification
-    @user = current_user
-  end
-
-  def enable_line_notification
-    current_user.update!(line_notify_enabled: true)
-    redirect_to line_notification_settings_path, notice: "LINE通知をONにしました"
-  end
-
-  def disable_line_notification
-    current_user.update!(line_notify_enabled: false)
-    redirect_to line_notification_settings_path, notice: "LINE通知をOFFにしました"
-  end
-
-  def generate_line_link_token
-    token = SecureRandom.alphanumeric(8).upcase
-
-    current_user.update!(
-      line_link_token: token,
-      line_link_token_generated_at: Time.zone.now
-    )
-
-    redirect_to line_notification_settings_path, notice: "LINEで連携コードを送ってください：#{token}"
   end
 
   private
