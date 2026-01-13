@@ -1,4 +1,6 @@
 class LineWebhookController < ApplicationController
+  skip_before_action :custom_authenticate_user!, raise: false
+  skip_before_action :authenticate_user!, raise: false
   skip_before_action :verify_authenticity_token
 
   def create
@@ -12,9 +14,7 @@ class LineWebhookController < ApplicationController
 
       if event.is_a?(Line::Bot::V2::Webhook::MessageEvent) &&
          event.message.is_a?(Line::Bot::V2::Webhook::TextMessageContent)
-        Rails.logger.info(
-          "[LINE] text=#{event.message.text} user_id=#{event.source.user_id}"
-        )
+        Rails.logger.info("[LINE] text=#{event.message.text} user_id=#{event.source.user_id}")
       end
     end
 
