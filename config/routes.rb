@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     # get :line
   end
 
+  post "/line/webhook", to: "line/webhooks#create"
+
   ## 静的ページ
   get "guide", to: "guide#index"
 
