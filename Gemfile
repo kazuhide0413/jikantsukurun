@@ -96,3 +96,5 @@ gem "omniauth-line-v2_1"
 
 # 環境変数管理
 gem "dotenv-rails"
+
+gem "line-bot-api"
