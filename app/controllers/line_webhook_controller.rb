@@ -2,50 +2,33 @@ class LineWebhookController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    body = request.raw_post
-    signature = request.headers["X-Line-Signature"].to_s
+    body = request.body.read
+    signature = request.env["HTTP_X_LINE_SIGNATURE"]
 
-    unless valid_signature?(body, signature)
-      Rails.logger.warn("[LINE] invalid signature")
-      head :bad_request and return
-    end
-
-    payload = JSON.parse(body)
-    events = payload["events"] || []
+    events = webhook_parser.parse(body: body, signature: signature)
 
     events.each do |event|
-      next unless event["type"] == "message"
-      next unless event.dig("message", "type") == "text"
+      Rails.logger.info("[LINE] event=#{event.class.name}")
 
-      text = event.dig("message", "text").to_s.strip
-      line_user_id = event.dig("source", "userId").to_s
-
-      user = User.find_by(line_link_token: text)
-      next if user.nil?
-
-      user.update!(
-        line_user_id: line_user_id,
-        line_linked_at: Time.zone.now,
-        line_link_token: nil,
-        line_link_token_generated_at: nil
-      )
-
-      Rails.logger.info("[LINE] linked user_id=#{user.id}")
+      if event.is_a?(Line::Bot::V2::Webhook::MessageEvent) &&
+         event.message.is_a?(Line::Bot::V2::Webhook::TextMessageContent)
+        Rails.logger.info(
+          "[LINE] text=#{event.message.text} user_id=#{event.source.user_id}"
+        )
+      end
     end
 
     head :ok
-  rescue JSON::ParserError
+  rescue Line::Bot::V2::WebhookParser::InvalidSignatureError
+    Rails.logger.error("[LINE] Invalid signature")
     head :bad_request
   end
 
   private
 
-  def valid_signature?(body, signature)
-    secret = ENV.fetch("LINE_CHANNEL_SECRET", "")
-    return false if secret.blank? || signature.blank?
-
-    hash = OpenSSL::HMAC.digest(OpenSSL::Digest.new("sha256"), secret, body)
-    computed = Base64.strict_encode64(hash)
-    ActiveSupport::SecurityUtils.secure_compare(computed, signature)
+  def webhook_parser
+    @webhook_parser ||= Line::Bot::V2::WebhookParser.new(
+      channel_secret: ENV.fetch("LINE_MESSAGE_CHANNEL_SECRET")
+    )
   end
 end
