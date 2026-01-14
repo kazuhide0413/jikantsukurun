@@ -6,16 +6,26 @@ class LineWebhookController < ApplicationController
   def create
     body = request.body.read
     signature = request.env["HTTP_X_LINE_SIGNATURE"]
-
     events = webhook_parser.parse(body: body, signature: signature)
 
     events.each do |event|
-      Rails.logger.info("[LINE] event=#{event.class.name}")
+      next unless event.is_a?(Line::Bot::V2::Webhook::MessageEvent)
+      next unless event.message.is_a?(Line::Bot::V2::Webhook::TextMessageContent)
 
-      if event.is_a?(Line::Bot::V2::Webhook::MessageEvent) &&
-         event.message.is_a?(Line::Bot::V2::Webhook::TextMessageContent)
-        Rails.logger.info("[LINE] text=#{event.message.text} user_id=#{event.source.user_id}")
-      end
+      text = event.message.text
+      line_user_id = event.source.user_id
+
+      user = User.find_by(line_link_token: text)
+      next if user.nil?
+
+      user.update!(
+        line_messaging_user_id: line_user_id,
+        line_link_token: nil
+      )
+
+      Rails.logger.info(
+        "[LINE] linked rails_user_id=#{user.id} line_user_id=#{line_user_id}"
+      )
     end
 
     head :ok
