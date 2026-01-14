@@ -6,10 +6,13 @@ class LineMessagingClient
   end
 
   def self.push_text(to:, text:)
+    raise ArgumentError, "to is blank" if to.blank?
+
     req = Line::Bot::V2::MessagingApi::PushMessageRequest.new(
       to: to,
       messages: [Line::Bot::V2::MessagingApi::TextMessage.new(text: text)]
     )
+
     client.push_message(push_message_request: req)
   end
 end
