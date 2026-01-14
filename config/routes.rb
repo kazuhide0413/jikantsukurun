@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   resource :settings, only: [:show] do
     get :edit_name
     patch :update_name
-    # 将来的にLINE通知設定を追加
-    # get :line
+
+    patch :generate_line_link_token
   end
 
   post "/line/webhook", to: "line_webhook#create"
