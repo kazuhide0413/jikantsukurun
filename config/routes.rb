@@ -30,8 +30,8 @@ Rails.application.routes.draw do
   resource :settings, only: [:show] do
     get :edit_name
     patch :update_name
-
     patch :generate_line_link_token
+    patch :send_line_test
   end
 
   post "/line/webhook", to: "line_webhook#create"

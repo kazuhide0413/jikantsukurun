@@ -33,6 +33,15 @@
                 <%= current_user.line_link_token %>
               </div>
             </div>
+
+          <% elsif current_user.line_messaging_user_id.present? %>
+            <%= button_to send_line_test_settings_path,
+                method: :patch,
+                class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                        hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+              LINEテスト通知を送信
+            <% end %>
+
           <% else %>
             <p class="text-sm text-gray-500 text-left [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
               未連携です（連携コードを発行してください）
