@@ -25,15 +25,13 @@ class SettingsController < ApplicationController
   end
 
   def send_line_test
-    to = current_user.line_messaging_user_id
+    if current_user.line_messaging_user_id.blank?
+    redirect_to settings_path, alert: "LINE未連携です。先に連携コードで連携してください。"
+    return
+  end
 
-    if to.blank?
-      redirect_to settings_path, alert: "LINE未連携です。先に連携コードで連携してください。"
-      return
-    end
-
-    LineMessagingClient.push_text(to: to, text: "テスト通知です")
-    redirect_to settings_path, notice: "LINEにテスト通知を送信しました"
+  LinePushNotificationJob.perform_later(current_user.id, "テスト通知です")
+  redirect_to settings_path, notice: "LINEにテスト通知を送信しました"
   rescue => e
     Rails.logger.error("[LINE_PUSH_TEST] #{e.class}: #{e.message}")
     redirect_to settings_path, alert: "送信に失敗しました（#{e.class}）。"
