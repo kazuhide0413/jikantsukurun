@@ -36,6 +36,12 @@ Rails.application.routes.draw do
 
   post "/line/webhook", to: "line_webhook#create"
 
+  namespace :internal do
+    namespace :line do
+      post :daily_effective_time, to: "notifications#daily_effective_time"
+    end
+  end
+
   ## 静的ページ
   get "guide", to: "guide#index"
 
