@@ -1,0 +1,19 @@
+name: LINE Daily Effective Time
+
+on:
+  schedule:
+    # JST 08:00 = UTC 23:00（前日）
+    # JST 22:00 = UTC 13:00
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+jobs:
+  call_endpoint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call daily effective time endpoint
+        run: |
+          curl -sS -X POST "${{ secrets.PROD_BASE_URL }}/internal/line/daily_effective_time" \
+            -H "X-CRON-TOKEN: ${{ secrets.CRON_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --fail
