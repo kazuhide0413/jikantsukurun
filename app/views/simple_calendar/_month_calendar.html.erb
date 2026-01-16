@@ -1,0 +1,86 @@
+<%# app/views/simple_calendar/_month_calendar.html.erb %>
+<%= raw(
+  content_tag(:div, class: "simple-calendar w-full") do
+    # 📅 月タイトル
+    content_tag(:div, start_date.strftime("%Y年 %B"), class: "text-center text-xl font-bold text-gray-800 mb-4") +
+
+    # 🗓 カレンダー本体
+    content_tag(:table, class: "w-full table-fixed border-collapse text-center") do
+      # ---- ヘッダー（日曜始まり）----
+      content_tag(:thead) do
+        content_tag(:tr) do
+          %w(日 月 火 水 木 金 土).each_with_index.map do |day, i|
+            klass = case i
+              when 0 then "text-red-500"
+              when 6 then "text-sky-500"
+              else "text-gray-600"
+            end
+            content_tag(:th, day, class: "#{klass} pb-2 text-[13px] font-semibold")
+          end.join.html_safe
+        end
+      end +
+
+      # ---- カレンダー本体（日曜始まり・6行固定）----
+      content_tag(:tbody) do
+        # 📆 その月全体の範囲
+        custom_range = (start_date.beginning_of_month.beginning_of_week(:sunday)..start_date.end_of_month.end_of_week(:sunday)).to_a
+
+        # ✅ 行数が6未満なら埋める
+        if (custom_range.size / 7) < 6
+          last_date = custom_range.last
+          ((6 * 7) - custom_range.size).times { |i| custom_range << (last_date + (i + 1).days) }
+        end
+
+        # 📅 各週を1行ずつ出力
+        custom_range.each_slice(7).map do |week|
+          content_tag(:tr) do
+            week.map do |date|
+              is_today = (date == Date.current)
+              is_other_month = (date.month != start_date.month)
+
+              # 背景色設定
+              bg_class =
+                if is_today
+                  "bg-sky-100 border border-sky-300"
+                elsif is_other_month
+                  "bg-gray-100 opacity-60"
+                else
+                  "bg-white"
+                end
+
+              # 文字色
+              text_class =
+                if date.sunday?
+                  "text-red-500"
+                elsif date.saturday?
+                  "text-sky-500"
+                else
+                  "text-gray-700"
+                end
+
+              content_tag(:td, class: "align-top p-0.5") do
+                content_tag(:div,
+                  class: "flex flex-col items-center justify-center
+                          w-[42px] h-[42px] sm:w-[50px] sm:h-[50px]
+                          rounded-xl #{bg_class}") do
+
+                  # 日付
+                  content_tag(:div,
+                    date.day,
+                    class: "font-bold text-[13px] #{text_class} #{'opacity-50' if is_other_month}"
+                  ) +
+                  # 有効時間
+                  content_tag(:div,
+                    passed_block.call(date),
+                    class: "text-[10px] mt-0.5 leading-tight
+                            #{is_other_month ? 'text-gray-400 opacity-40' : 'text-gray-600'}"
+                  )
+                end
+              end
+            end.join.html_safe
+          end
+        end.join.html_safe
+      end
+    end
+  end
+) %>

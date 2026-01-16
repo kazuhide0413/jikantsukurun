@@ -16,6 +16,12 @@ module Myapp
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # ここから追記（タイムゾーン設定）
+    # -------------------------------
+    config.time_zone = 'Tokyo'                   # 表示用のタイムゾーン（JST）
+    config.active_record.default_timezone = :utc # DB保存はUTC（推奨）
+    # -------------------------------
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
@@ -23,5 +29,13 @@ module Myapp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Don't generate system test files.
+    config.generators.system_tests = nil
+    config.generators do |g|
+      g.skip_routes true
+      g.helper false
+      g.test_framework nil
+    end
   end
 end

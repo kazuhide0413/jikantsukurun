@@ -1,0 +1,52 @@
+<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6 pb-24">
+  <div class="container mx-auto pt-3">
+    <div class="flex justify-center">
+      <div class="w-full max-w-sm flex flex-col items-center text-center">
+
+        <!-- タイトル -->
+        <section class="mb-6">
+          <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Black',Helvetica]">
+            あなたが有効に使えた時間
+          </h1>
+        </section>
+
+        <!-- カレンダー -->
+        <section class="mb-6 w-full">
+          <div class="bg-white rounded-2xl shadow-md p-4 w-full flex flex-col items-center">
+            <div class="w-full flex justify-center">
+              <%= month_calendar(start_date: @start_date) do |date| %>
+                <% s = @sessions_by_date[date] %>
+                <div class="flex flex-col items-center justify-center w-[46px] h-[46px] sm:w-[52px] sm:h-[52px]">
+                  <div class="font-bold text-sm <%= day_text_color(date) %>"><%= date.day %></div>
+                  <div class="text-[10px] text-gray-500 mt-0.5 leading-tight">
+                    <%= s&.formatted_effective_duration || "ー" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </section>
+
+        <!-- 月移動ナビ（横並び） -->
+        <section class="w-full mt-2">
+          <div class="flex justify-between items-center gap-2">
+            <%= link_to "← 前の月",
+                daily_sessions_path(start_date: (@start_date - 1.month).to_s),
+                class: "flex-1 bg-gray-200 border border-gray-300 rounded-xl py-3 text-lg font-medium text-black shadow-sm hover:bg-gray-300 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+
+            <%= link_to "今月",
+                daily_sessions_path,
+                class: "flex-1 bg-[#67c2fa] rounded-xl py-3 text-lg font-medium text-black shadow-sm hover:bg-[#4eb3f7] transition-colors text-center [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+
+            <%= link_to "次の月 →",
+                daily_sessions_path(start_date: (@start_date + 1.month).to_s),
+                class: "flex-1 bg-gray-200 border border-gray-300 rounded-xl py-3 text-lg font-medium text-black shadow-sm hover:bg-gray-300 transition-colors text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render 'shared/footer' %>

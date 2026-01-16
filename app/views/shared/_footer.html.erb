@@ -1,0 +1,33 @@
+<footer class="fixed bottom-0 left-0 w-full flex justify-center bg-[#e8e7e7] z-50">
+  <nav class="w-full max-w-md px-6 py-3 flex justify-between items-center">
+
+    <!-- 使い方 -->
+    <%= link_to guide_path,
+      class: "flex flex-col items-center transition #{current_page?(guide_path) ? 'text-sky-500' : 'text-gray-600 hover:text-sky-400'}" do %>
+      <i class="fas fa-question-circle text-lg mb-0.5"></i>
+      <span class="text-[10px] font-medium">使い方</span>
+    <% end %>
+
+    <!-- 習慣登録 -->
+    <%= link_to habits_path,
+      class: "flex flex-col items-center transition #{current_page?(habits_path) ? 'text-sky-500' : 'text-gray-600 hover:text-sky-400'}" do %>
+      <i class="fas fa-plus text-lg mb-0.5"></i>
+      <span class="text-[10px] font-medium">習慣登録</span>
+    <% end %>
+
+    <!-- カレンダー -->
+    <%= link_to daily_sessions_path,
+      class: "flex flex-col items-center transition #{current_page?(daily_sessions_path) ? 'text-sky-500' : 'text-gray-600 hover:text-sky-400'}" do %>
+      <i class="fas fa-calendar text-lg mb-0.5"></i>
+      <span class="text-[10px] font-medium">カレンダー</span>
+    <% end %>
+
+    <!-- 設定 -->
+    <%= link_to settings_path,
+      class: "flex flex-col items-center transition #{current_page?(settings_path) ? 'text-sky-500' : 'text-gray-600 hover:text-sky-400'}" do %>
+      <i class="fas fa-cog text-lg mb-0.5"></i>
+      <span class="text-[10px] font-medium">設定</span>
+    <% end %>
+
+  </nav>
+</footer>

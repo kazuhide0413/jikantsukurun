@@ -1,0 +1,35 @@
+# frozen_string_literal: true
+
+class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_before_action :verify_authenticity_token, only: [:google_oauth2, :line_v2_1]
+
+  def google_oauth2
+    callback_for(:google)
+  end
+
+  def line_v2_1
+    callback_for(:line)
+  end
+
+  private
+
+  def callback_for(provider)
+    @user = User.from_omniauth(request.env["omniauth.auth"])
+
+    if @user.persisted?
+      sign_in_and_redirect @user, event: :authentication
+      set_flash_message(:notice, :success, kind: provider.to_s.capitalize) if is_navigational_format?
+    else
+      session["devise.#{provider}_data"] = request.env["omniauth.auth"].except(:extra)
+      flash[:alert] = @user.errors.full_messages.to_sentence if @user.errors.any?
+      redirect_to new_user_registration_url
+    end
+  rescue => e
+    Rails.logger.warn("[OmniAuth] #{provider} failed: #{e.class} #{e.message}")
+    redirect_to new_user_session_path, alert: "ログインに失敗しました"
+  end
+
+  def failure
+    redirect_to root_path, alert: "ログインに失敗しました。もう一度お試しください。"
+  end
+end
