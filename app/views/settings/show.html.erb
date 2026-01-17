@@ -1,63 +1,53 @@
-<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6 pb-24">
-  <div class="container mx-auto pt-3">
-    <div class="flex justify-center">
-      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-6">
+<div class="w-full flex flex-col items-center text-center space-y-6">
+  <!-- タイトル -->
+  <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+    設定
+  </h1>
 
-        <!-- タイトル -->
-        <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          設定
-        </h1>
+  <!-- ユーザー名編集ボタン -->
+  <%= link_to edit_name_settings_path,
+      class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+              hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+    ユーザー名編集
+  <% end %>
 
-        <!-- ユーザー名編集ボタン -->
-        <%= link_to edit_name_settings_path,
-            class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
-                    hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-          ユーザー名編集
-        <% end %>
+  <!-- LINE通知設定 -->
+  <div class="w-full space-y-3">
+    <%= button_to generate_line_link_token_settings_path,
+        method: :patch,
+        class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+      LINE連携コードを発行
+    <% end %>
 
-        <!-- LINE通知設定 -->
-        <div class="w-full space-y-3">
-          <%= button_to generate_line_link_token_settings_path,
-              method: :patch,
-              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
-                      hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-            LINE連携コードを発行
-          <% end %>
-
-          <% if current_user.line_link_token.present? %>
-            <div class="w-full bg-white border border-gray-300 rounded-xl p-4 text-left shadow-sm">
-              <p class="text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-                このコードをLINE公式アカウントに送ってください：
-              </p>
-              <div class="mt-2 p-3 bg-gray-100 rounded-lg font-mono text-sm break-all">
-                <%= current_user.line_link_token %>
-              </div>
-            </div>
-
-          <% elsif current_user.line_messaging_user_id.present? %>
-            <%= button_to send_line_test_settings_path,
-                method: :patch,
-                class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
-                        hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-              LINEテスト通知を送信
-            <% end %>
-
-          <% else %>
-            <p class="text-sm text-gray-500 text-left [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-              未連携です（連携コードを発行してください）
-            </p>
-          <% end %>
+    <% if current_user.line_link_token.present? %>
+      <div class="w-full bg-white border border-gray-300 rounded-xl p-4 text-left shadow-sm">
+        <p class="text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          このコードをLINE公式アカウントに送ってください：
+        </p>
+        <div class="mt-2 p-3 bg-gray-100 rounded-lg font-mono text-sm break-all">
+          <%= current_user.line_link_token %>
         </div>
-
-        <!-- ログアウトボタン -->
-        <%= link_to "ログアウト", destroy_user_session_path,
-            data: { "turbo-method": :delete },
-            class: "w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-xl font-medium text-black
-                    transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
-
       </div>
-    </div>
-  </div>
-</div>
 
-<%= render 'shared/footer' %>
+    <% elsif current_user.line_messaging_user_id.present? %>
+      <%= button_to send_line_test_settings_path,
+          method: :patch,
+          class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                  hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+        LINEテスト通知を送信
+      <% end %>
+
+    <% else %>
+      <p class="text-sm text-gray-500 text-left [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+        未連携です（連携コードを発行してください）
+      </p>
+    <% end %>
+  </div>
+
+  <!-- ログアウトボタン -->
+  <%= link_to "ログアウト", destroy_user_session_path,
+      data: { "turbo-method": :delete },
+      class: "w-full bg-[#ff0000] hover:bg-[#e60000] rounded-xl py-3 text-xl font-medium text-black
+              transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Medium',Helvetica]" %>
+</div>

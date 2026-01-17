@@ -1,45 +1,40 @@
-<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
-  <div class="container mx-auto pt-3">
-    <div class="flex justify-center">
-      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+<% @hide_footer = true %>
 
-        <!-- タイトル -->
-        <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          ユーザー名を編集する
-        </h1>
+<div class="w-full flex flex-col items-center text-center space-y-8">
+  <!-- タイトル -->
+  <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+    ユーザー名を編集する
+  </h1>
 
-        <!-- フォーム -->
-        <%= form_with model: @user, url: update_name_settings_path, method: :patch, local: true, class: "w-full space-y-6" do |f| %>
-          <div class="flex flex-col items-start space-y-2 w-full">
-            <label for="user_name" class="text-lg text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-              ユーザー名
-            </label>
-            <%= f.text_field :name,
-                class: "w-full border border-gray-300 rounded-xl p-3 text-lg text-black
-                        focus:ring-2 focus:ring-sky-400 focus:outline-none [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+  <!-- フォーム -->
+  <%= form_with model: @user, url: update_name_settings_path, method: :patch, local: true, class: "w-full space-y-6 text-left" do |f| %>
+    <div class="flex flex-col items-start space-y-2 w-full">
+      <label for="user_name" class="text-lg text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+        ユーザー名
+      </label>
 
-            <% if @user.errors[:name].any? %>
-              <p class="text-red-600 text-sm mt-1 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-                <%= @user.errors[:name].first %>
-              </p>
-            <% end %>
-          </div>
+      <%= f.text_field :name,
+          class: "w-full border border-gray-300 rounded-xl p-3 text-lg text-black
+                  focus:ring-2 focus:ring-sky-400 focus:outline-none [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
 
-          <!-- 更新ボタン -->
-          <%= f.submit "更新",
-              class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
-                      transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
-        <% end %>
-
-        <!-- 戻るボタン -->
-        <%= link_to settings_path,
-            class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
-                    hover:bg-gray-100 transition-colors shadow-sm text-center
-                    [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-          戻る
-        <% end %>
-
-      </div>
+      <% if @user.errors[:name].any? %>
+        <p class="text-red-600 text-sm mt-1 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          <%= @user.errors[:name].first %>
+        </p>
+      <% end %>
     </div>
-  </div>
+
+    <!-- 更新ボタン -->
+    <%= f.submit "更新",
+        class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
+                transition-colors shadow-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+  <% end %>
+
+  <!-- 戻るボタン -->
+  <%= link_to settings_path,
+      class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+              hover:bg-gray-100 transition-colors shadow-sm text-center
+              [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+    戻る
+  <% end %>
 </div>
