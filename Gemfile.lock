@@ -180,6 +180,8 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.3)
+    meta-tags (2.22.3)
+      actionpack (>= 6.0.0)
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
@@ -452,6 +454,7 @@ DEPENDENCIES
   letter_opener
   letter_opener_web
   line-bot-api
+  meta-tags
   omniauth-google-oauth2
   omniauth-line-v2_1
   omniauth-rails_csrf_protection
