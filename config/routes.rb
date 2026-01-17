@@ -47,6 +47,8 @@ Rails.application.routes.draw do
 
   ## システム
   get "up" => "rails/health#show", as: :rails_health_check
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
+  ## PWA対応
+  get "/service-worker.js" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
+  get "/manifest.json"     => "rails/pwa#manifest",       as: :pwa_manifest,       defaults: { format: :json }
 end
