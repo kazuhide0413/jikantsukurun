@@ -1,5 +1,7 @@
 module ApplicationHelper
   def default_meta_tags
+    og_image = "#{request.base_url}#{asset_path('ogp.png')}"
+
     {
       site: '時間作るん',
       title: '習慣化サービス',
@@ -9,19 +11,19 @@ module ApplicationHelper
       keywords: '習慣化',
       canonical: request.original_url,
       separator: '|',
-      og:{
+      og: {
         site_name: :site,
         title: :title,
         description: :description,
         type: 'website',
         url: request.original_url,
-        image: image_url('ogp.png'),
-        local: 'ja-JP'
+        image: og_image,
+        locale: 'ja_JP'
       },
       twitter: {
         card: 'summary_large_image',
         site: '@Z3MlmG659Z78990',
-        image: image_url('ogp.png')
+        image: og_image
       }
     }
   end
