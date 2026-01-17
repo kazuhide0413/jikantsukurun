@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>時間作るん</title>
+
+  <style>
+    /* ===== Tailwind風の最低限レイアウト再現（オフラインでも崩れない） ===== */
+    body {
+      margin: 0;
+      background: #e8e7e7;                 /* bg-[#e8e7e7] */
+      min-height: 100vh;                  /* min-h-screen */
+      display: flex;                      /* flex */
+      flex-direction: column;             /* flex-col */
+      align-items: center;                /* items-center */
+      justify-content: flex-start;        /* justify-start */
+      padding: 24px 24px 96px;            /* p-6 pb-24 */
+      color: #000;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo",
+        Helvetica, Arial, sans-serif;
+    }
+
+    main {
+      width: 100%;                        /* w-full */
+      max-width: 24rem;                   /* max-w-sm */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;                 /* text-center */
+      gap: 32px;                          /* space-y-8 */
+    }
+
+    header {
+      margin-top: 40px;                   /* mt-10 */
+    }
+
+    h1 {
+      margin: 0;
+      font-weight: 900;                   /* font-black */
+      font-size: 36px;                    /* text-4xl */
+      line-height: 1.15;
+      font-family: "Rounded Mplus 1c", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    .subtitle {
+      margin: 0;
+      font-size: 20px;                    /* text-xl */
+      font-family: "Rounded Mplus 1c", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    section {
+      width: 100%;                        /* w-full */
+      border-radius: 16px;                /* rounded-2xl */
+      padding: 16px;                      /* p-4 */
+      text-align: left;                   /* text-left */
+    }
+
+    h2 {
+      margin: 0 0 8px 0;                  /* mb-2 */
+      font-weight: 700;                   /* font-bold */
+      font-size: 18px;                    /* text-lg */
+      font-family: "Rounded Mplus 1c", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;                    /* text-base */
+      line-height: 1.75;                  /* leading-relaxed */
+      font-family: "Rounded Mplus 1c", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    /* ===== ボタンコンテナ（indexの flex flex-col space-y-4 w-full px-4） ===== */
+    .button-wrap {
+      width: 100%;
+      padding: 0 16px;                    /* px-4 */
+      display: flex;
+      flex-direction: column;
+      gap: 16px;                          /* space-y-4 */
+    }
+
+    /* ===== ボタン（indexの bg-[#67c2fa] rounded-xl py-3 text-2xl font-medium ...） ===== */
+    .primary-btn {
+      display: block;
+      width: 100%;
+      padding: 12px 0;                    /* py-3 */
+      border: none;
+      border-radius: 12px;                /* rounded-xl */
+      background: #67c2fa;                /* bg-[#67c2fa] */
+      color: #000;                        /* text-black */
+      font-size: 24px;                    /* text-2xl */
+      font-weight: 500;                   /* font-medium */
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease; /* transition-colors */
+      font-family: "Rounded Mplus 1c", system-ui, Helvetica, Arial, sans-serif;
+    }
+
+    .primary-btn:hover {
+      background: #4eb3f7;                /* hover:bg-[#4eb3f7] */
+    }
+
+    .primary-btn:active {
+      transform: translateY(1px);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <!-- タイトル -->
+    <header>
+      <h1>時間作るん</h1>
+    </header>
+
+    <!-- サブタイトル -->
+    <p class="subtitle">〜毎日の時間は有限です〜</p>
+
+    <!-- オフライン案内（文言はそのまま） -->
+    <section>
+      <h2>オフラインです</h2>
+      <p>通信が戻ったら、もう一度お試しください。</p>
+
+      <!-- ボタン（indexの体裁に合わせる） -->
+      <div class="button-wrap">
+        <button class="primary-btn" onclick="location.reload()">再読み込み</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
