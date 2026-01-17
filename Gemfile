@@ -98,3 +98,6 @@ gem "omniauth-line-v2_1"
 gem "dotenv-rails"
 
 gem "line-bot-api"
+
+# 静的OGP導入
+gem "meta-tags"
