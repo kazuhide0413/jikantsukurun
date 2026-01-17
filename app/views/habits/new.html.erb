@@ -1,49 +1,40 @@
-<div class="bg-[#e8e7e7] min-h-screen flex flex-col items-center justify-start p-6">
-  <div class="container mx-auto pt-3">
-    <div class="flex justify-center">
-      <div class="w-full max-w-sm flex flex-col items-center text-center space-y-8">
+<% @hide_footer = true %>
 
-        <!-- タイトル -->
-        <section aria-labelledby="habit-new-title">
-          <h1 id="habit-new-title" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-            習慣を作成する
-          </h1>
-        </section>
+<div class="w-full flex flex-col items-center text-center space-y-8">
+  <!-- タイトル -->
+  <section aria-labelledby="habit-new-title">
+    <h1 id="habit-new-title" class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+      習慣を作成する
+    </h1>
+  </section>
 
-        <!-- 習慣作成フォーム -->
-        <%= form_with model: @habit, url: habits_path, local: true, html: { class: "w-full space-y-6 text-left" } do |f| %>
-
-          <!-- 入力欄 -->
-          <div>
-            <%= f.label :title, "嫌な習慣", class: "block mb-2 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
-            <%= f.text_field :title,
-                class: "w-full px-3 py-3 rounded-xl border border-gray-300 bg-white text-2xl
-                        focus:outline-none focus:ring-2 focus:ring-[#67c2fa]
-                        [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
-                placeholder: "例）歯磨き" %>
-          </div>
-
-          <!-- 作成ボタン（水色） -->
-          <div>
-            <%= f.submit "作成",
-                class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
-                        transition-colors shadow-sm
-                        [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
-          </div>
-
-        <% end %>
-
-        <!-- 戻るボタン -->
-        <section class="w-full">
-          <%= link_to habits_path,
-              class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
-                      hover:bg-gray-100 transition-colors shadow-sm text-center
-                      [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-            戻る
-          <% end %>
-        </section>
-
-      </div>
+  <!-- 習慣作成フォーム -->
+  <%= form_with model: @habit, url: habits_path, local: true, html: { class: "w-full space-y-6 text-left" } do |f| %>
+    <div>
+      <%= f.label :title, "嫌な習慣",
+          class: "block mb-2 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+      <%= f.text_field :title,
+          class: "w-full px-3 py-3 rounded-xl border border-gray-300 bg-white text-2xl
+                  focus:outline-none focus:ring-2 focus:ring-[#67c2fa]
+                  [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
+          placeholder: "例）歯磨き" %>
     </div>
-  </div>
+
+    <div>
+      <%= f.submit "作成",
+          class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
+                  transition-colors shadow-sm
+                  [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+    </div>
+  <% end %>
+
+  <!-- 戻るボタン -->
+  <section class="w-full">
+    <%= link_to habits_path,
+        class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+                hover:bg-gray-100 transition-colors shadow-sm text-center
+                [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+      戻る
+    <% end %>
+  </section>
 </div>
