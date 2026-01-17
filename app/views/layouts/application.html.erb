@@ -27,7 +27,9 @@
         </div>
       </main>
 
-      <%= render "shared/footer" %>
+      <% unless content_for?(:hide_footer) %>
+        <%= render "shared/footer" %>
+      <% end %>
     </div>
   </body>
 
