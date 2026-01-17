@@ -7,14 +7,14 @@ module ApplicationHelper
       charset: 'utf-8',
       description: '時間作るんは、誰もが毎日必ずする習慣を手助けするサービスです',
       keywords: '習慣化',
-      canonical: https://jikantsukurun.onrender.com/,
+      canonical: request.original_url,
       separator: '|',
       og:{
         site_name: :site,
         title: :title,
         description: :description,
         type: 'website',
-        url: https://jikantsukurun.onrender.com/,
+        url: request.original_url,
         image: image_url('ogp.png'),
         local: 'ja-JP'
       },
