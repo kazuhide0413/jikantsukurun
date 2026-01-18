@@ -1,18 +1,21 @@
 Rails.application.routes.draw do
-  # 開発環境でのみメール確認用画面を有効化
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
-  ## devise認証
   devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions',
-    omniauth_callbacks: 'users/omniauth_callbacks'
+    registrations: "users/registrations",
+    sessions: "users/sessions",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
 
-  ## メイン機能
-  root "static_pages#top"
+  authenticated :user do
+    root to: "habits#index", as: :authenticated_root
+  end
+
+  unauthenticated do
+    root to: "static_pages#top"
+  end
 
   resources :habits do
     member do
@@ -42,13 +45,10 @@ Rails.application.routes.draw do
     end
   end
 
-  ## 静的ページ
   get "guide", to: "guide#index"
 
-  ## システム
   get "up" => "rails/health#show", as: :rails_health_check
 
-  ## PWA対応
   get "/service-worker.js" => "rails/pwa#service_worker", as: :pwa_service_worker, defaults: { format: :js }
   get "/manifest.json"     => "rails/pwa#manifest",       as: :pwa_manifest,       defaults: { format: :json }
 end
