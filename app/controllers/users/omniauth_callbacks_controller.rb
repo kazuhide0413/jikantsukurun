@@ -14,16 +14,24 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def callback_for(provider)
-    @user = User.from_omniauth(request.env["omniauth.auth"])
+    auth = request.env["omniauth.auth"]
+    @user = User.from_omniauth(auth)
 
     if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication
+
+      @user.remember_me = true
+
+      sign_in(:user, @user, event: :authentication)
+
       set_flash_message(:notice, :success, kind: provider.to_s.capitalize) if is_navigational_format?
-    else
-      session["devise.#{provider}_data"] = request.env["omniauth.auth"].except(:extra)
-      flash[:alert] = @user.errors.full_messages.to_sentence if @user.errors.any?
-      redirect_to new_user_registration_url
+
+      redirect_to after_sign_in_path_for(@user)
+      return
     end
+
+    session["devise.#{provider}_data"] = auth.except(:extra)
+    flash[:alert] = @user.errors.full_messages.to_sentence if @user.errors.any?
+    redirect_to new_user_registration_url
   rescue => e
     Rails.logger.warn("[OmniAuth] #{provider} failed: #{e.class} #{e.message}")
     redirect_to new_user_session_path, alert: "ログインに失敗しました"
