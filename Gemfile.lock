@@ -137,6 +137,7 @@ GEM
       activesupport (>= 6.1)
     hashie (5.1.0)
       logger
+    high_voltage (5.0.0)
     holiday_jp (0.8.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -448,6 +449,7 @@ DEPENDENCIES
   debug
   devise
   dotenv-rails
+  high_voltage
   holiday_jp
   jbuilder
   jsbundling-rails

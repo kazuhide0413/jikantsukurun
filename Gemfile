@@ -101,3 +101,6 @@ gem "line-bot-api"
 
 # 静的OGP導入
 gem "meta-tags"
+
+# 静的ページ用
+gem "high_voltage"
