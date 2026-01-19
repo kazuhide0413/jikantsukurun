@@ -3,26 +3,26 @@ module ApplicationHelper
     og_image = "#{request.base_url}#{asset_path('ogp.png')}"
 
     {
-      site: '時間作るん',
-      title: '習慣化サービス',
+      site: "時間作るん",
+      title: "習慣化サービス",
       reverse: true,
-      charset: 'utf-8',
-      description: '時間作るんは、誰もが毎日必ずする習慣を手助けするサービスです',
-      keywords: '習慣化',
+      charset: "utf-8",
+      description: "時間作るんは、誰もが毎日必ずする習慣を手助けするサービスです",
+      keywords: "習慣化",
       canonical: request.original_url,
-      separator: '|',
+      separator: "|",
       og: {
         site_name: :site,
         title: :title,
         description: :description,
-        type: 'website',
+        type: "website",
         url: request.original_url,
         image: og_image,
-        locale: 'ja_JP'
+        locale: "ja_JP"
       },
       twitter: {
-        card: 'summary_large_image',
-        site: '@Z3MlmG659Z78990',
+        card: "summary_large_image",
+        site: "@Z3MlmG659Z78990",
         image: og_image
       }
     }

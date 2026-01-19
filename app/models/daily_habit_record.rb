@@ -3,9 +3,9 @@ class DailyHabitRecord < ApplicationRecord
   belongs_to :habit
 
   validates :record_date, presence: true
-  validates :habit_id, uniqueness: { scope: [:user_id, :record_date],
+  validates :habit_id, uniqueness: { scope: [ :user_id, :record_date ],
     message: "は同じ日に重複登録できません" }
-  validates :is_completed, inclusion: { in: [true, false] }
+  validates :is_completed, inclusion: { in: [ true, false ] }
 
   scope :for_date, ->(date) { where(record_date: date) }
   scope :today, -> { for_date(Date.current) }

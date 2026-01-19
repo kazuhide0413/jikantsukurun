@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [ :name ])
+    devise_parameter_sanitizer.permit(:account_update, keys: [ :name ])
   end
 
   def custom_authenticate_user!
@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def public_page?
     # ルートページとDeviseページは公開
-    return true if (controller_name == "static_pages" && action_name == "top")
+    return true if controller_name == "static_pages" && action_name == "top"
     return true if devise_controller?
 
     # high_voltage の利用規約/PPも公開（/pages/terms, /pages/policy）

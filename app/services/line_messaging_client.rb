@@ -10,7 +10,7 @@ class LineMessagingClient
 
     req = Line::Bot::V2::MessagingApi::PushMessageRequest.new(
       to: to,
-      messages: [Line::Bot::V2::MessagingApi::TextMessage.new(text: text)]
+      messages: [ Line::Bot::V2::MessagingApi::TextMessage.new(text: text) ]
     )
 
     client.push_message(push_message_request: req)

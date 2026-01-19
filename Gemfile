@@ -53,8 +53,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  
-  #デバッグ用
+
+  # デバッグ用
   gem "better_errors"
   gem "binding_of_caller"
   gem "byebug"
@@ -63,7 +63,7 @@ group :development do
   gem "pry-doc"
   gem "pry-rails"
 
-  #letter_opener系
+  # letter_opener系
   gem "letter_opener"
   gem "letter_opener_web"
 end
@@ -74,17 +74,17 @@ group :test do
   gem "selenium-webdriver"
 end
 
-#tailwind導入
+# tailwind導入
 gem "tailwindcss-ruby", "~> 4.1"
 gem "tailwindcss-rails", "~> 4.3"
 
-#devise導入
+# devise導入
 gem "devise"
 
-#simple_calendar導入
+# simple_calendar導入
 gem "simple_calendar"
 
-#祝日判定（日本）
+# 祝日判定（日本）
 gem "holiday_jp"
 
 # Google OAuth
