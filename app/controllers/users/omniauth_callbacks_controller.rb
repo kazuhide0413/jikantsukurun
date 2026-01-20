@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  skip_before_action :verify_authenticity_token, only: [:google_oauth2, :line_v2_1]
+  skip_before_action :verify_authenticity_token, only: [ :google_oauth2, :line_v2_1 ]
 
   def google_oauth2
     callback_for(:google)

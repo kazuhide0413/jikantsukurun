@@ -23,14 +23,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :daily_sessions, only: [:index] do
+  resources :daily_sessions, only: [ :index ] do
     collection do
       post :return_home
       post :bedtime
     end
   end
 
-  resource :settings, only: [:show] do
+  resource :settings, only: [ :show ] do
     get :edit_name
     patch :update_name
     patch :generate_line_link_token

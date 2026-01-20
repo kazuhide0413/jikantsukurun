@@ -1,7 +1,7 @@
 class HabitsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_habit, only: [:show, :edit, :update, :destroy]
-  before_action :prevent_modification_after_bedtime, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_habit, only: [ :show, :edit, :update, :destroy ]
+  before_action :prevent_modification_after_bedtime, only: [ :new, :create, :edit, :update, :destroy ]
 
   def index
     @habits = current_user.habits
@@ -15,7 +15,7 @@ class HabitsController < ApplicationController
   end
 
   def show
-    @habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
+    @habit = Habit.where(user_id: [ current_user.id, nil ]).find(params[:id])
     @today_record = @habit.daily_habit_records.find_by(record_date: DailySession.logical_today)
   end
 

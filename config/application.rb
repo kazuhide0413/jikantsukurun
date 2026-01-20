@@ -18,7 +18,7 @@ module Myapp
 
     # ここから追記（タイムゾーン設定）
     # -------------------------------
-    config.time_zone = 'Tokyo'                   # 表示用のタイムゾーン（JST）
+    config.time_zone = "Tokyo"                   # 表示用のタイムゾーン（JST）
     config.active_record.default_timezone = :utc # DB保存はUTC（推奨）
     # -------------------------------
 

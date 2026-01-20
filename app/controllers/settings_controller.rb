@@ -28,7 +28,7 @@ class SettingsController < ApplicationController
     if current_user.line_messaging_user_id.blank?
     redirect_to settings_path, alert: "LINE未連携です。先に連携コードで連携してください。"
     return
-  end
+    end
 
   LinePushNotificationJob.perform_later(current_user.id, "テスト通知です")
   redirect_to settings_path, notice: "LINEにテスト通知を送信しました"
