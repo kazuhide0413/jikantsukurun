@@ -79,7 +79,11 @@ jobs:
       - name: Run tests
         run: |
           bin/rails test
-          bin/rails test:system
+          if [ -d test/system ]; then
+            bin/rails test:system
+          else
+            echo "Skip system tests: test/system does not exist"
+          fi
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
