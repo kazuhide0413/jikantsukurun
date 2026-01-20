@@ -62,6 +62,9 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Setup Chrome
+        uses: browser-actions/setup-chrome@v1
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -74,4 +77,14 @@ jobs:
         run: bin/rails db:prepare
 
       - name: Run tests
-        run: bin/rails test
+        run: |
+          bin/rails test
+          bin/rails test:system
+
+      - name: Keep screenshots from failed system tests
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshots
+          path: ${{ github.workspace }}/tmp/screenshots
+          if-no-files-found: ignore
