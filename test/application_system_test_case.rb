@@ -1,13 +1,13 @@
 require_relative "test_helper"
+require "selenium/webdriver"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :headless_chrome, screen_size: [ 390, 844 ], options: {
-    browser: :chrome,
-    args: %w[
-      no-sandbox
-      disable-dev-shm-usage
-      disable-gpu
-      window-size=390,844
-    ]
-  }
+  options = Selenium::WebDriver::Chrome::Options.new
+  options.add_argument("--headless=new")
+  options.add_argument("--no-sandbox")
+  options.add_argument("--disable-dev-shm-usage")
+  options.add_argument("--disable-gpu")
+  options.add_argument("--window-size=390,844")
+
+  driven_by :selenium, using: :chrome, options: options
 end
