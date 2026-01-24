@@ -4,6 +4,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :configure_sign_up_params, only: [ :create ]
   before_action :configure_account_update_params, only: [ :update ]
 
+  def create
+    super do |resource|
+      if resource.errors.any?
+        flash.now[:alert] = t("devise.registrations.failure")
+      end
+    end
+  end
+
   def build_resource(hash = {})
     hash[:uid] ||= User.create_unique_string
     super
