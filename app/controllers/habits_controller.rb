@@ -26,9 +26,9 @@ class HabitsController < ApplicationController
   def create
     @habit = current_user.habits.build(habit_params)
     if @habit.save
-      redirect_to habits_path, notice: "新しい習慣を追加しました！"
+      redirect_to habits_path, notice: t("habits.flash.created")
     else
-      flash.now[:alert] = "保存に失敗しました。"
+      flash.now[:alert] = t("habits.flash.create_failed")
       render :new, status: :unprocessable_entity
     end
   end
@@ -37,16 +37,16 @@ class HabitsController < ApplicationController
 
   def update
     if @habit.update(habit_params)
-      redirect_to habit_path(@habit), notice: "習慣を更新しました！"
+      redirect_to habit_path(@habit), notice: t("habits.flash.updated")
     else
-      flash.now[:alert] = "更新に失敗しました。"
+      flash.now[:alert] = t("habits.flash.update_failed")
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @habit.destroy
-    redirect_to habits_path, notice: "習慣を削除しました。"
+    redirect_to habits_path, notice: t("habits.flash.destroyed")
   end
 
   private
@@ -57,7 +57,7 @@ class HabitsController < ApplicationController
   def prevent_modification_after_bedtime
     today_session = current_user.daily_sessions.find_by(session_date: DailySession.logical_today)
     if today_session&.bedtime_at.present?
-      redirect_to habits_path, alert: "本日はすでに就寝済みのため、この操作はできません。"
+      redirect_to habits_path, alert: t("habits.flash.after_bedtime_forbidden")
     end
   end
 

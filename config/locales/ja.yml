@@ -6,3 +6,14 @@ ja:
         email: "メールアドレス"
         password: "パスワード"
         password_confirmation: "パスワード（確認用）"
+      habit:
+        title: "習慣名"
+  habits:
+    flash:
+      created: "新しい習慣を追加しました！"
+      create_failed: "保存に失敗しました。"
+      updated: "習慣を更新しました！"
+      update_failed: "更新に失敗しました。"
+      destroyed: "習慣を削除しました。"
+      after_bedtime_forbidden: "本日はすでに就寝済みのため、この操作はできません。"
+      
