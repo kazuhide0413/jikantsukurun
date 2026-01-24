@@ -76,7 +76,7 @@ end
 
 # tailwind導入
 gem "tailwindcss-ruby", "~> 4.1"
-gem "tailwindcss-rails", "~> 4.3"
+gem "tailwindcss-rails", "~> 4.4"
 
 # devise導入
 gem "devise"
