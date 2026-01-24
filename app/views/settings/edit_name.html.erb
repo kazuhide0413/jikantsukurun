@@ -8,6 +8,18 @@
 
   <!-- フォーム -->
   <%= form_with model: @user, url: update_name_settings_path, method: :patch, local: true, class: "w-full space-y-6 text-left" do |f| %>
+
+    <% if @user.errors.any? %>
+      <% base = "w-full rounded-xl p-4 text-red-700 text-sm border [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+      <% css  = "#{base} bg-red-50 border-red-300" %>
+
+      <div class="<%= css %>">
+        <% @user.errors.full_messages.each do |message| %>
+          <p class="leading-relaxed"><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
     <div class="flex flex-col items-start space-y-2 w-full">
       <label for="user_name" class="text-lg text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
         ユーザー名
@@ -16,12 +28,6 @@
       <%= f.text_field :name,
           class: "w-full border border-gray-300 rounded-xl p-3 text-lg text-black
                   focus:ring-2 focus:ring-sky-400 focus:outline-none [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
-
-      <% if @user.errors[:name].any? %>
-        <p class="text-red-600 text-sm mt-1 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-          <%= @user.errors[:name].first %>
-        </p>
-      <% end %>
     </div>
 
     <!-- 更新ボタン -->
