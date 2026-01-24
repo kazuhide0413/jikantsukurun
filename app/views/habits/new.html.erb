@@ -9,10 +9,24 @@
   </section>
 
   <!-- 習慣作成フォーム -->
-  <%= form_with model: @habit, url: habits_path, local: true, html: { class: "w-full space-y-6 text-left" } do |f| %>
-    <div>
+  <%= form_with model: @habit, url: habits_path, local: true,
+        class: "w-full space-y-6 text-left" do |f| %>
+
+    <% if @habit.errors.any? %>
+      <% base = "w-full rounded-xl p-4 text-red-700 text-sm border [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+      <% css  = "#{base} bg-red-50 border-red-300" %>
+
+      <div class="<%= css %>">
+        <% @habit.errors.full_messages.each do |message| %>
+          <p class="leading-relaxed"><%= message %></p>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="flex flex-col items-start space-y-2 w-full">
       <%= f.label :title, "嫌な習慣",
-          class: "block mb-2 font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+          class: "text-lg text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+
       <%= f.text_field :title,
           class: "w-full px-3 py-3 rounded-xl border border-gray-300 bg-white text-2xl
                   focus:outline-none focus:ring-2 focus:ring-[#67c2fa]
@@ -20,7 +34,7 @@
           placeholder: "例）歯磨き" %>
     </div>
 
-    <div>
+    <div class="w-full">
       <%= f.submit "作成",
           class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
                   transition-colors shadow-sm

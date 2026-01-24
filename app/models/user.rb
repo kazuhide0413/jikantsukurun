@@ -10,6 +10,10 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :uid, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
+  # パスワード形式（小文字・数字・記号を必須 + 同じ文字連続NG）
+  # passwordが入力されたときだけ実行（プロフィール更新でpassword未入力ならスキップ）
+  validate :password_complexity, if: -> { password.present? }
+
   after_create :copy_default_habits
 
   def self.from_omniauth(auth)
@@ -51,6 +55,28 @@ class User < ApplicationRecord
   end
 
   private
+
+  def password_complexity
+    # 小文字を含む
+    unless password.match?(/[a-z]/)
+      errors.add(:password, "は英小文字を含めてください")
+    end
+
+    # 数字を含む
+    unless password.match?(/\d/)
+      errors.add(:password, "は数字を含めてください")
+    end
+
+    # 記号を含む（英数字以外）
+    unless password.match?(/[^A-Za-z0-9]/)
+      errors.add(:password, "は記号を含めてください")
+    end
+
+    # 同じ文字の連続禁止（例: aa, 11, !!）
+    if password.match?(/(.)\1/)
+      errors.add(:password, "は同じ文字を連続して使用できません")
+    end
+  end
 
   def copy_default_habits
     DefaultHabit.find_each do |template|

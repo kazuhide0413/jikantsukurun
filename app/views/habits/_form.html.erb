@@ -1,13 +1,14 @@
 <%= form_with(model: habit, local: true, class: "space-y-6 w-full text-left") do |f| %>
-  <% if habit.errors.any? %>
-    <div class="w-full bg-red-50 border border-red-300 rounded-xl p-4 text-red-700 text-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-      <ul class="list-disc pl-5 text-left">
-        <% habit.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+<% if habit.errors.any? %>
+  <% base = "w-full rounded-xl p-4 text-red-700 text-sm border [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+  <% css  = "#{base} bg-red-50 border-red-300" %>
+
+  <div class="<%= css %>">
+    <% habit.errors.full_messages.each do |message| %>
+      <p class="leading-relaxed text-left"><%= message %></p>
+    <% end %>
+  </div>
+<% end %>
 
   <div class="flex flex-col items-start space-y-2 w-full">
     <label for="habit_title" class="text-lg text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
@@ -17,12 +18,6 @@
     <%= f.text_field :title,
         class: "w-full border border-gray-300 rounded-xl p-3 text-lg text-black focus:ring-2 focus:ring-sky-400 focus:outline-none [font-family:'Rounded_Mplus_1c-Regular',Helvetica]",
         placeholder: "例：洗濯" %>
-
-    <% if habit.errors[:title].any? %>
-      <p class="text-red-600 text-sm mt-1 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
-        <%= habit.errors[:title].first %>
-      </p>
-    <% end %>
   </div>
 
   <section class="w-full">
