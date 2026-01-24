@@ -21,6 +21,9 @@
 
   <body class="min-h-screen bg-[#e8e7e7] overflow-y-scroll">
     <div class="min-h-screen flex flex-col items-center">
+      <div class="mx-auto w-full max-w-sm pt-4">
+        <%= render "shared/flash" %>
+      </div>
       <main class="w-full flex-1 mx-auto px-4 sm:px-6 pt-6 pb-24">
         <div class="w-full max-w-sm sm:max-w-md md:max-w-lg mx-auto flex flex-col items-center text-center">
           <%= yield %>

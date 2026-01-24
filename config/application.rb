@@ -22,6 +22,8 @@ module Myapp
     config.active_record.default_timezone = :utc # DB保存はUTC（推奨）
     # -------------------------------
 
+    config.i18n.default_locale = :ja
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

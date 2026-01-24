@@ -10,7 +10,6 @@
 
   <!-- ログインフォーム -->
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "w-full space-y-5 text-left" }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
 
     <!-- メールアドレス -->
     <div>

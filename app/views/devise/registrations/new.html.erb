@@ -8,11 +8,11 @@
     </h1>
   </header>
 
+  <%= render "devise/shared/error_messages", resource: resource %>
+
   <!-- 登録フォーム -->
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name),
         html: { class: "w-full space-y-5 text-left" }) do |f| %>
-
-    <%= render "devise/shared/error_messages", resource: resource %>
 
     <!-- ユーザー名 -->
     <div>
