@@ -105,5 +105,5 @@ gem "meta-tags"
 # 静的ページ用
 gem "high_voltage"
 
-gem 'rails-i18n'
-gem 'devise-i18n'
+gem "rails-i18n"
+gem "devise-i18n"
