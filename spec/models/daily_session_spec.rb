@@ -146,6 +146,58 @@ RSpec.describe DailySession, type: :model do
       expect(session.calculate_effective_duration!).to eq 1800
       expect(session.reload.effective_duration).to eq 1800
     end
+
+    # ✅ 追加：is_completed=true でも completed_at=nil は対象外
+    it "is_completed=true でも completed_at=nil のレコードは計算対象から除外される" do
+      user = create(:user)
+      date = Date.current
+
+      session = create(
+        :daily_session,
+        user:,
+        session_date: date,
+        bedtime_at: Time.zone.parse("#{date} 23:30:00")
+      )
+
+      habit = create(:habit, user:)
+
+      create(:daily_habit_record,
+        user:,
+        habit:,
+        record_date: date,
+        is_completed: true,
+        completed_at: nil
+      )
+
+      expect(session.calculate_effective_duration!).to eq 0
+      expect(session.reload.effective_duration).to eq 0
+    end
+
+    # ✅ 追加：マイナスになり得る場合は0にクリップ
+    it "bedtime_at が最後の完了時刻より前でも、有効時間は 0 で下限クリップされる" do
+      user = create(:user)
+      date = Date.current
+
+      session = create(
+        :daily_session,
+        user:,
+        session_date: date,
+        bedtime_at: Time.zone.parse("#{date} 22:30:00")
+      )
+
+      habit = create(:habit, user:)
+
+      create(:daily_habit_record,
+        user:,
+        habit:,
+        record_date: date,
+        is_completed: true,
+        completed_at: Time.zone.parse("#{date} 23:00:00") # bedtimeより後
+      )
+
+      expect(session.calculate_effective_duration!).to eq 0
+      expect(session.reload.effective_duration).to eq 0
+    end
   end
 
   describe ".logical_today" do

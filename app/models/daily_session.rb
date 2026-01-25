@@ -11,6 +11,7 @@ class DailySession < ApplicationRecord
   def calculate_effective_duration!
     last_completed_at = user.daily_habit_records
                             .where(record_date: session_date, is_completed: true)
+                            .where.not(completed_at: nil)
                             .maximum(:completed_at)
 
     if last_completed_at.nil? || bedtime_at.nil?
@@ -18,7 +19,7 @@ class DailySession < ApplicationRecord
       return 0
     end
 
-    duration = (bedtime_at - last_completed_at).to_i
+    duration = [(bedtime_at - last_completed_at).to_i, 0].max
     update!(effective_duration: duration)
     duration
   end
