@@ -48,6 +48,12 @@ group :development, :test do
 
   # 🕒 時間を固定してテストできる
   gem "timecop"
+
+  # Rspec関係
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+
 end
 
 group :development do
@@ -72,6 +78,9 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  # Rspec関係
+  gem "shoulda-matchers"
 end
 
 # tailwind導入
