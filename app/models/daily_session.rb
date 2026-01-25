@@ -13,7 +13,10 @@ class DailySession < ApplicationRecord
                             .where(record_date: session_date, is_completed: true)
                             .maximum(:completed_at)
 
-    return update!(effective_duration: 0) if last_completed_at.nil? || bedtime_at.nil?
+    if last_completed_at.nil? || bedtime_at.nil?
+      update!(effective_duration: 0)
+      return 0
+    end
 
     duration = (bedtime_at - last_completed_at).to_i
     update!(effective_duration: duration)
