@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :habit do
     association :user
-    title { "歯みがき" }
+    sequence(:title) { |n| "習慣#{n}" }
   end
 end
