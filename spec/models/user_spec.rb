@@ -80,7 +80,6 @@ RSpec.describe User, type: :model do
   end
 
   describe ".from_omniauth" do
-    # after_create :copy_default_habits の副作用を最小化（必要なら）
     before do
       DefaultHabit.delete_all
     end
@@ -103,7 +102,7 @@ RSpec.describe User, type: :model do
     end
 
     it "provider + uid で既に紐付いているユーザーがいればそれを返す（更新しない）" do
-      user = create(
+      existing = create(
         :user,
         provider: "google_oauth2",
         uid: "uid-123",
@@ -115,12 +114,12 @@ RSpec.describe User, type: :model do
 
       result = described_class.from_omniauth(auth)
 
-      expect(result.id).to eq user.id
+      expect(result.id).to eq existing.id
       expect(result.email).to eq "exist@example.com"
       expect(result.name).to eq "既存ユーザー"
     end
 
-    it "email が同じ既存ユーザーがいれば provider/uid を紐付けて返す" do
+    it "email が同じ既存ユーザーがいれば provider/uid を紐付けて返す（nameは既存優先）" do
       user = create(
         :user,
         provider: nil,
@@ -143,7 +142,8 @@ RSpec.describe User, type: :model do
       expect(result.id).to eq user.id
       expect(user.provider).to eq "line_v2_1"
       expect(user.uid).to eq "line-999"
-      expect(user.name).to eq "元の名前" # 既にあるので上書きされない想定
+      expect(user.name).to eq "元の名前"
+      expect(user.avatar_url).to eq "https://img.example.com/a.png"
     end
 
     it "email が同じ既存ユーザーがいても name が既にある場合は name を上書きしない" do
@@ -155,7 +155,12 @@ RSpec.describe User, type: :model do
         name: "元の名前"
       )
 
-      auth = build_auth(provider: "google_oauth2", uid: "g-777", email: "same2@example.com", name: "OAuthで来た名前")
+      auth = build_auth(
+        provider: "google_oauth2",
+        uid: "g-777",
+        email: "same2@example.com",
+        name: "OAuthで来た名前"
+      )
 
       result = described_class.from_omniauth(auth)
 
@@ -163,10 +168,10 @@ RSpec.describe User, type: :model do
       expect(result.id).to eq user.id
       expect(user.provider).to eq "google_oauth2"
       expect(user.uid).to eq "g-777"
-      expect(user.name).to eq "元の名前" # ←上書きされない
+      expect(user.name).to eq "元の名前"
     end
 
-    it "該当がなければ新規ユーザーを作成して返す" do
+    it "該当がなければ新規ユーザーを作成して返す（avatar_url も保存される）" do
       auth = build_auth(provider: "google_oauth2", uid: "new-uid", email: "new@example.com", name: "新規太郎")
 
       expect { described_class.from_omniauth(auth) }.to change(User, :count).by(1)
@@ -183,6 +188,44 @@ RSpec.describe User, type: :model do
       auth = build_auth(provider: "google_oauth2", uid: "uid-x", email: nil)
 
       expect { described_class.from_omniauth(auth) }.to raise_error(RuntimeError, "Email not provided by OAuth provider")
+    end
+
+    it "同じprovider+uidが別ユーザーに存在する場合は provider+uid 側が優先され、そのユーザーを返す（email一致の紐付けは起きない）" do
+      # 既に provider+uid を持つユーザー（優先される想定）
+      owner = create(
+        :user,
+        provider: "line_v2_1",
+        uid: "line-dup",
+        email: "owner@example.com",
+        name: "既存所有者"
+      )
+
+      # email一致で本来なら紐付け対象になり得るユーザー（ただし衝突するので紐付かない）
+      target = create(
+        :user,
+        provider: nil,
+        uid: nil,
+        email: "same@example.com",
+        name: "紐付け対象"
+      )
+
+      auth = build_auth(
+        provider: "line_v2_1",
+        uid: "line-dup", # ←owner と一致（ここが最優先）
+        email: "same@example.com", # ←target と一致
+        name: "LINE太郎",
+        image: "https://img.example.com/a.png"
+      )
+
+      result = described_class.from_omniauth(auth)
+
+      # provider+uid が最優先で owner が返る
+      expect(result.id).to eq owner.id
+
+      # target は紐付かない（安全側）
+      target.reload
+      expect(target.provider).to be_nil
+      expect(target.uid).to be_nil
     end
   end
 end
