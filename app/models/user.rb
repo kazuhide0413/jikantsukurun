@@ -34,7 +34,7 @@ class User < ApplicationRecord
         provider: provider,
         uid: uid,
         name: user.name.presence || auth.info.name.presence || email,
-        avatar_url: (auth.info.image if user.respond_to?(:avatar_url) && auth.info.image)
+        avatar_url: auth.info.image.presence
       )
       return user
     end
@@ -46,7 +46,7 @@ class User < ApplicationRecord
       email: email,
       name: auth.info.name.presence || email,
       password: Devise.friendly_token[0, 20],
-      avatar_url: (auth.info.image if respond_to?(:avatar_url) && auth.info.image)
+      avatar_url: auth.info.image.presence
     )
   end
 
