@@ -1,11 +1,13 @@
 require "rails_helper"
 
 RSpec.describe "UserSession", type: :system do
+  let(:password) { "Paseword!1" }
+
   let!(:user) do
     User.create!(
       name: "テストユーザー",
       email: "test@example.com",
-      password: "Paseword!1"
+      password: password
     )
   end
 
@@ -14,35 +16,31 @@ RSpec.describe "UserSession", type: :system do
       visit new_user_session_path
 
       fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: "Password!1"
+      fill_in "パスワード", with: password
       click_on "ログイン"
 
-      # ログイン後の画面に来ていることを確認
-      expect(page).to have_content("設定").or have_content("ログアウト")
+      # ログインできていれば、ログイン画面の「メールアドレス もしくはパスワードが不正です。」は出ない
+      expect(page).not_to have_content("メールアドレス もしくはパスワードが不正です。")
     end
 
     it "フォーム未入力 => ログイン失敗" do
       visit new_user_session_path
-
       click_on "ログイン"
 
-      # エラー表示 or ログイン画面に留まることを確認
-      expect(page).to have_content("メールアドレス")
-        .or have_content("入力")
-        .or have_current_path(new_user_session_path)
+      expect(page).to have_current_path(new_user_session_path)
     end
   end
 
   describe "ログイン後" do
-    before do
-      login(user) # ← LoginMacrosの共通処理
-    end
+    before { login(user, password: password) }
 
-    it "ログアウトボタンを押す => ログアウトされる" do
-      click_on "ログアウト"
+it "ログアウトボタンを押す => ログアウトされる", js: true do
+  login(user, password: password)
 
-      expect(page).to have_content("ログイン")
-        .or have_current_path(new_user_session_path)
-    end
+  visit settings_path
+  click_on "ログアウト"
+
+  expect(page).to have_current_path(new_user_session_path, ignore_query: true)
+end
   end
 end

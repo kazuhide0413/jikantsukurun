@@ -85,11 +85,16 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:each, type: :system) do
-    driven_by :remote_chrome
-    Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-    Capybara.server_port = 4444
-    Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+  config.before(:each, type: :system) do |example|
+    if example.metadata[:js]
+      driven_by :remote_chrome
+      Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+      Capybara.server_port = 3001
+      Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+    else
+      driven_by :rack_test
+    end
+
     Capybara.ignore_hidden_elements = false
   end
 
