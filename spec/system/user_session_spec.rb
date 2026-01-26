@@ -1,4 +1,5 @@
 require "rails_helper"
+require "warden/test/helpers"
 
 RSpec.describe "UserSession", type: :system do
   let(:password) { "Paseword!1" }
@@ -19,12 +20,13 @@ RSpec.describe "UserSession", type: :system do
       fill_in "パスワード", with: password
       click_on "ログイン"
 
-      # ログインできていれば、ログイン画面の「メールアドレス もしくはパスワードが不正です。」は出ない
+      # ログインできていればエラーメッセージは表示されない
       expect(page).not_to have_content("メールアドレス もしくはパスワードが不正です。")
     end
 
     it "フォーム未入力 => ログイン失敗" do
       visit new_user_session_path
+
       click_on "ログイン"
 
       expect(page).to have_current_path(new_user_session_path)
@@ -32,15 +34,14 @@ RSpec.describe "UserSession", type: :system do
   end
 
   describe "ログイン後" do
-    before { login(user, password: password) }
+    it "ログアウトボタンを押す => ログアウトされる", js: true do
+      login_as(user, scope: :user)
 
-it "ログアウトボタンを押す => ログアウトされる", js: true do
-  login(user, password: password)
+      visit settings_path
+      click_on "ログアウト"
 
-  visit settings_path
-  click_on "ログアウト"
-
-  expect(page).to have_current_path(new_user_session_path, ignore_query: true)
-end
+      expect(page).to have_current_path(root_path, ignore_query: true)
+      expect(page).to have_content("ログイン")
+    end
   end
 end

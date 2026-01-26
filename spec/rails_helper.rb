@@ -98,4 +98,10 @@ RSpec.configure do |config|
     Capybara.ignore_hidden_elements = false
   end
 
+  config.include Warden::Test::Helpers, type: :system
+
+  config.after(:each, type: :system) do
+    Warden.test_reset!
+  end
+
 end
