@@ -520,6 +520,7 @@ DEPENDENCIES
   timecop
   turbo-rails
   tzinfo-data
+  warden
   web-console
   webdrivers
 
