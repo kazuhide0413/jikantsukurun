@@ -78,7 +78,7 @@ RSpec.describe DailySession, type: :model do
 
       session = create(:daily_session, user:, session_date: date)
 
-      expect(session.all_habits_completed_today?([h1.id, h2.id])).to be true
+      expect(session.all_habits_completed_today?([ h1.id, h2.id ])).to be true
     end
 
     it "1つでも未完了があれば false" do
@@ -99,7 +99,7 @@ RSpec.describe DailySession, type: :model do
 
       session = create(:daily_session, user:, session_date: date)
 
-      expect(session.all_habits_completed_today?([h1.id, h2.id])).to be false
+      expect(session.all_habits_completed_today?([ h1.id, h2.id ])).to be false
     end
   end
 

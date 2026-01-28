@@ -28,7 +28,6 @@ RSpec.describe "User", type: :system do
       # 成功判定：アプリの仕様に合わせて確認（設定/ログアウト/ガイドなど）
       expect(page).not_to have_content("入力")
       expect(page).not_to have_content("エラー")
-
     end
 
     it "ユーザー新規登録: メール未入力 => 登録失敗" do

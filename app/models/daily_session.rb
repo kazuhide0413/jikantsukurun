@@ -19,7 +19,7 @@ class DailySession < ApplicationRecord
       return 0
     end
 
-    duration = [(bedtime_at - last_completed_at).to_i, 0].max
+    duration = [ (bedtime_at - last_completed_at).to_i, 0 ].max
     update!(effective_duration: duration)
     duration
   end

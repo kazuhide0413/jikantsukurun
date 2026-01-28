@@ -66,7 +66,7 @@ RSpec.describe DailyHabitRecord, type: :model do
       _r_yesterday = create(:daily_habit_record, user:, habit:, record_date: yesterday)
 
       expect(DailyHabitRecord.today).to include(r_today)
-      expect(DailyHabitRecord.today.pluck(:record_date).uniq).to eq([today])
+      expect(DailyHabitRecord.today.pluck(:record_date).uniq).to eq([ today ])
     end
 
     it ".completed は完了だけ、.incomplete は未完了だけ返す" do

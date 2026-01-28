@@ -30,7 +30,7 @@ class HabitsController < ApplicationController
   def show
     @habit =
       Habit
-        .where(user_id: [current_user.id, nil])
+        .where(user_id: [ current_user.id, nil ])
         .find(params[:id])
 
     @today_record =

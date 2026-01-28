@@ -103,5 +103,4 @@ RSpec.configure do |config|
   config.after(:each, type: :system) do
     Warden.test_reset!
   end
-
 end

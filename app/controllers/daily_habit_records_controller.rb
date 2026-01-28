@@ -2,7 +2,7 @@ class DailyHabitRecordsController < ApplicationController
   before_action :authenticate_user!
 
   def toggle
-    habit = Habit.where(user_id: [current_user.id, nil]).find(params[:id])
+    habit = Habit.where(user_id: [ current_user.id, nil ]).find(params[:id])
     today = DailySession.logical_today
 
     record = DailyHabitRecord.find_or_create_by!(
