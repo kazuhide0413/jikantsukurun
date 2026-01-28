@@ -62,8 +62,14 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
-      - name: Setup Chrome
+      - name: Setup Chrome (stable)
         uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Show Chrome version
+        run: google-chrome --version
+
 
       - uses: actions/setup-node@v4
         with:
