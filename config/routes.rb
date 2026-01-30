@@ -37,7 +37,7 @@ Rails.application.routes.draw do
     patch :send_line_test
   end
 
-  post "/line/webhook", to: "line_webhook#create"
+  post "/line/webhook", to: "line/webhooks#callback"
 
   namespace :internal do
     namespace :line do
