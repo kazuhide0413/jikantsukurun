@@ -19,27 +19,30 @@ class SettingsController < ApplicationController
     end
   end
 
-  def generate_line_link_token
-    current_user.update!(line_link_token: SecureRandom.hex(8))
-    redirect_to settings_path, notice: "LINE連携コードを発行しました。LINE公式アカウントに送ってください。"
+  def edit_line_notify
+    @user = current_user
+    # 初期値がnilの人がいてもUIで扱えるように
+    @user.line_notify_time ||= Time.zone.parse("12:00")
   end
 
-  def send_line_test
-    if current_user.line_messaging_user_id.blank?
-    redirect_to settings_path, alert: "LINE未連携です。先に連携コードで連携してください。"
-    return
-    end
+  def update_line_notify
+    @user = current_user
 
-  LinePushNotificationJob.perform_later(current_user.id, "テスト通知です")
-  redirect_to settings_path, notice: "LINEにテスト通知を送信しました"
-  rescue => e
-    Rails.logger.error("[LINE_PUSH_TEST] #{e.class}: #{e.message}")
-    redirect_to settings_path, alert: "送信に失敗しました（#{e.class}）。"
+    if @user.update(line_notify_params)
+      redirect_to settings_path, notice: "LINE通知設定を更新しました"
+    else
+      flash.now[:alert] = "更新に失敗しました"
+      render :edit_line_notify, status: :unprocessable_entity
+    end
   end
 
   private
 
   def user_params
     params.require(:user).permit(:name)
+  end
+
+  def line_notify_params
+    params.require(:user).permit(:line_notify_enabled, :line_notify_time)
   end
 end

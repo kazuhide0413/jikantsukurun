@@ -33,8 +33,8 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show ] do
     get :edit_name
     patch :update_name
-    patch :generate_line_link_token
-    patch :send_line_test
+    get  :edit_line_notify
+    patch :update_line_notify
   end
 
   post "/line/webhook", to: "line/webhooks#callback"
