@@ -11,11 +11,29 @@
     ユーザー名編集
   <% end %>
 
-  <!-- LINE通知設定ボタン -->
-  <%= link_to edit_line_notify_settings_path,
-      class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
-              hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
-    LINE通知設定
+  <% line_linked = current_user.provider == "line_v2_1" && current_user.line_messaging_user_id.present? %>
+
+  <!-- LINE通知設定 -->
+  <% if line_linked %>
+    <!-- 押せる -->
+    <%= link_to edit_line_notify_settings_path,
+        class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-xl font-medium text-black
+                hover:bg-gray-100 transition-colors shadow-sm text-center [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+      LINE通知設定
+    <% end %>
+  <% else %>
+    <!-- 押せない -->
+    <div
+      class="block w-full bg-gray-200 border border-gray-300 rounded-xl py-3 text-xl font-medium text-gray-400
+             shadow-sm text-center cursor-not-allowed [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+      LINE通知設定
+    </div>
+
+    <!-- 説明だけ -->
+    <p class="text-sm text-gray-500 text-left w-full [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+      LINE通知はLINEログインしたユーザーのみ利用できます。
+      通知を使いたい場合は、一度ログアウトして「LINEでログイン」してください。
+    </p>
   <% end %>
 
   <!-- ログアウトボタン -->
