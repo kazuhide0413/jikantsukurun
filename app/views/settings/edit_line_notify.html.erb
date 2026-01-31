@@ -1,0 +1,47 @@
+<% @hide_footer = true %>
+
+<div class="w-full flex flex-col items-center text-center space-y-8">
+  <h1 class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+    LINE通知設定
+  </h1>
+
+  <% if @user.errors.any? %>
+    <% base = "w-full rounded-xl p-4 text-red-700 text-sm border [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+    <% css  = "#{base} bg-red-50 border-red-300" %>
+    <div class="<%= css %>">
+      <% @user.errors.full_messages.each do |message| %>
+        <p class="leading-relaxed"><%= message %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= form_with model: @user, url: update_line_notify_settings_path, method: :patch,
+        class: "w-full max-w-sm space-y-6 text-left" do |f| %>
+
+    <div class="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm">
+      <div>
+        <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">通知を有効にする</p>
+        <p class="text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+          ONのときだけLINE通知を送ります
+        </p>
+      </div>
+      <%= f.check_box :line_notify_enabled, class: "h-6 w-6" %>
+    </div>
+
+    <div class="bg-white rounded-xl p-4 shadow-sm space-y-2">
+      <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">通知時刻</p>
+      <p class="text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+        5分刻みで選べます
+      </p>
+
+      <div class="flex gap-2 items-center">
+        <%= f.time_select :line_notify_time,
+              { minute_step: 5, default: @user.line_notify_time, ignore_date: true },
+              { class: "px-3 py-2 rounded-lg border border-gray-300 bg-white" } %>
+      </div>
+    </div>
+
+    <%= f.submit "保存",
+        class: "w-full rounded-xl py-3 text-xl text-black font-medium shadow-sm bg-[#67c2fa] hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+  <% end %>
+</div>

@@ -18,6 +18,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user = User.from_omniauth(auth)
 
     if @user.persisted?
+      if provider == :line && @user.line_messaging_user_id.blank?
+        @user.update!(line_messaging_user_id: auth.uid)
+      end
 
       @user.remember_me = true
 
