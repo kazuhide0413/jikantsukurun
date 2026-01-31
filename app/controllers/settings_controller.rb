@@ -1,5 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_line_login, only: [:edit_line_notify, :update_line_notify]
 
   def show
     @user = current_user
@@ -44,5 +45,11 @@ class SettingsController < ApplicationController
 
   def line_notify_params
     params.require(:user).permit(:line_notify_enabled, :line_notify_time)
+  end
+
+  def require_line_login
+    unless current_user.provider == "line_v2_1" && current_user.line_messaging_user_id.present?
+      redirect_to settings_path, alert: "LINEログインしたユーザーのみ通知設定が可能です"
+    end
   end
 end
