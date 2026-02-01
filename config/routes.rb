@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   resource :settings, only: [ :show ] do
     get :edit_name
     patch :update_name
-    get  :edit_line_notify
+    get :edit_line_notify
     patch :update_line_notify
   end
 

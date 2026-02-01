@@ -1,6 +1,6 @@
 class SettingsController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_line_login, only: [:edit_line_notify, :update_line_notify]
+  before_action :require_line_login, only: [ :edit_line_notify, :update_line_notify ]
 
   def show
     @user = current_user
