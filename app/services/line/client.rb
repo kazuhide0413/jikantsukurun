@@ -12,7 +12,7 @@ class Line::Client
     req["Authorization"] = "Bearer #{token}"
     req.body = {
       to: to,
-      messages: [{ type: "text", text: text }]
+      messages: [ { type: "text", text: text } ]
     }.to_json
 
     response =

@@ -23,7 +23,7 @@ class Line::SendDailyNotificationJob < ApplicationJob
 
   def targets(_now)
     User.where(line_notify_enabled: true)
-        .where.not(line_messaging_user_id: [nil, ""])
+        .where.not(line_messaging_user_id: [ nil, "" ])
   end
 
   def already_sent_today?(user, today)
