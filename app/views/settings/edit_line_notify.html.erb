@@ -5,6 +5,17 @@
     LINE通知設定
   </h1>
 
+  <!-- QRコード：白枠に入れて、幅は show と同じ箱の w-full に合わせる -->
+  <div class="w-full bg-white border border-gray-300 rounded-xl p-4 shadow-sm">
+    <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+      LINE公式アカウントを追加して通知を受け取れます
+    </p>
+
+    <div class="flex justify-center">
+      <%= line_qrcode("https://lin.ee/WhPEh4p") %>
+    </div>
+  </div>
+
   <% if @user.errors.any? %>
     <% base = "w-full rounded-xl p-4 text-red-700 text-sm border [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
     <% css  = "#{base} bg-red-50 border-red-300" %>
@@ -16,29 +27,44 @@
   <% end %>
 
   <%= form_with model: @user, url: update_line_notify_settings_path, method: :patch,
-        class: "w-full max-w-sm space-y-6 text-left" do |f| %>
+        class: "w-full space-y-6 text-left" do |f| %>
 
-    <div class="flex items-center justify-between bg-white rounded-xl p-4 shadow-sm">
-      <div>
-        <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">習慣達成状況の通知を有効にする</p>
-      </div>
+    <!-- 通知ON/OFF -->
+    <div class="w-full flex items-center justify-between bg-white rounded-xl p-4 shadow-sm">
+      <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+        習慣達成状況の通知を有効にする
+      </p>
       <%= f.check_box :line_notify_enabled, class: "h-6 w-6" %>
     </div>
 
-    <div class="bg-white rounded-xl p-4 shadow-sm space-y-2">
+    <!-- 通知時刻 -->
+    <div class="w-full bg-white rounded-xl p-4 shadow-sm space-y-2">
       <p class="font-medium text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">通知時刻</p>
       <p class="text-sm text-gray-600 [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
         5分刻みで選べます
       </p>
 
+      <% default_time = @user.line_notify_time || Time.zone.parse("12:00") %>
+
       <div class="flex gap-2 items-center">
         <%= f.time_select :line_notify_time,
-              { minute_step: 5, default: @user.line_notify_time, ignore_date: true },
+              { minute_step: 5, default: default_time, ignore_date: true },
               { class: "px-3 py-2 rounded-lg border border-gray-300 bg-white" } %>
       </div>
     </div>
 
-    <%= f.submit "保存",
-        class: "w-full rounded-xl py-3 text-xl text-black font-medium shadow-sm bg-[#67c2fa] hover:bg-[#4eb3f7] transition-colors [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+    <!-- 更新ボタン -->
+    <%= f.submit "更新",
+        class: "w-full bg-[#67c2fa] hover:bg-[#4eb3f7] rounded-xl py-3 text-2xl text-black font-medium
+                transition-colors shadow-sm
+                [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" %>
+  <% end %>
+
+  <!-- 戻るボタン -->
+  <%= link_to settings_path,
+      class: "block w-full bg-white border border-gray-300 rounded-xl py-3 text-2xl text-black font-medium
+              hover:bg-gray-100 transition-colors shadow-sm text-center
+              [font-family:'Rounded_Mplus_1c-Regular',Helvetica]" do %>
+    戻る
   <% end %>
 </div>
