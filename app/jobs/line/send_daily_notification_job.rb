@@ -39,7 +39,7 @@ class Line::SendDailyNotificationJob < ApplicationJob
     now >= notify_at && now < notify_at + WINDOW
   end
 
-  # ✅ ここが追加：昨日の結果メッセージ
+# ✅ ここが追加：昨日の結果メッセージ + LIFFリンク
   def build_text_for(user, now)
     yday = (now.to_date - 1)
 
@@ -47,15 +47,18 @@ class Line::SendDailyNotificationJob < ApplicationJob
     total = records.count
     done  = records.where(is_completed: true).count
 
+    liff_url = "https://liff.line.me/#{ENV.fetch('LIFF_ID')}"
+    suffix = "\n\n👇ここから入力できます\n#{liff_url}"
+
     # 昨日の記録がまだ無い人向け
     if total.zero?
-      return "おかえりなさい！昨日の習慣記録がまだありません。今日から一緒に積み上げましょう💪"
+      return "おかえりなさい！昨日の習慣記録がまだありません。今日から一緒に積み上げましょう💪#{suffix}"
     end
 
     if done == total
-      "おかえりなさい！昨日の習慣は #{done}/#{total} で全て完了でした🎉 今日も頑張りましょう💪"
+      "おかえりなさい！昨日の習慣は #{done}/#{total} で全て完了でした🎉 今日も頑張りましょう💪#{suffix}"
     else
-      "おかえりなさい！昨日の習慣達成は #{done}/#{total} でした。今日も少しずついきましょう💪"
+      "おかえりなさい！昨日の習慣達成は #{done}/#{total} でした。今日も少しずついきましょう💪#{suffix}"
     end
   end
 end

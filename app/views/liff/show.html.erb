@@ -1,0 +1,54 @@
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+<div class="w-full flex flex-col items-center text-center space-y-8 mt-20">
+
+  <section aria-labelledby="liff-loading-title">
+    <h1 id="liff-loading-title"
+        class="text-2xl text-black [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+      読み込み中…
+    </h1>
+  </section>
+
+  <p class="text-gray-500 text-sm [font-family:'Rounded_Mplus_1c-Regular',Helvetica]">
+    時間作るんを開いています
+  </p>
+
+</div>
+
+<script>
+  (async () => {
+    const liffId = "<%= j @liff_id %>";
+
+    const to = new URLSearchParams(window.location.search).get("to");
+
+    try {
+      await liff.init({ liffId });
+
+      if (!liff.isLoggedIn()) {
+        liff.login({ redirectUri: window.location.href });
+        return;
+      }
+
+      const idToken = liff.getIDToken();
+
+      const res = await fetch("/liff/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_token: idToken, to: to })
+      });
+
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        alert(json.error || "認証に失敗しました。もう一度お試しください。");
+        return;
+      }
+
+      window.location.href = json.redirect_to || "/";
+    } catch (e) {
+      console.error(e);
+      alert("LIFFの初期化に失敗しました。通信環境をご確認ください。");
+    }
+  })();
+</script>
