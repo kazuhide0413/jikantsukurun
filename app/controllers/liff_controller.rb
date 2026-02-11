@@ -8,6 +8,8 @@ class LiffController < ApplicationController
 
   def auth
     id_token = params[:id_token].to_s
+    to       = params[:to]
+
     return render json: { ok: false, error: "id_token is blank" }, status: :bad_request if id_token.blank?
 
     payload = LineIdTokenVerifier.verify!(id_token)
@@ -20,7 +22,22 @@ class LiffController < ApplicationController
     return render json: { ok: false, error: "user not found for this LINE account" }, status: :unauthorized if user.nil?
 
     sign_in(user)
-    render json: { ok: true, redirect_to: authenticated_root_path }
+
+    redirect_path =
+      case to
+      when "today"
+        habits_path
+      when "records"
+        daily_sessions_path
+      when "settings"
+        settings_path
+      when "guide"
+        guide_path
+      else
+        authenticated_root_path
+      end
+
+  render json: { ok: true, redirect_to: redirect_path }
   rescue JWT::DecodeError, JWT::IncorrectAlgorithm => e
     render json: { ok: false, error: e.message }, status: :unauthorized
   end

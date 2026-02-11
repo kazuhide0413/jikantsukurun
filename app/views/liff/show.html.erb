@@ -20,11 +20,13 @@
   (async () => {
     const liffId = "<%= j @liff_id %>";
 
+    const to = new URLSearchParams(window.location.search).get("to");
+
     try {
       await liff.init({ liffId });
 
       if (!liff.isLoggedIn()) {
-        liff.login();
+        liff.login({ redirectUri: window.location.href });
         return;
       }
 
@@ -33,7 +35,7 @@
       const res = await fetch("/liff/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id_token: idToken })
+        body: JSON.stringify({ id_token: idToken, to: to })
       });
 
       const json = await res.json().catch(() => ({}));
