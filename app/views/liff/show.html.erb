@@ -26,6 +26,32 @@
       log("isLoggedIn: " + liff.isLoggedIn());
       log("OS: " + liff.getOS());
       log("Language: " + liff.getLanguage());
+
+      if (!liff.isLoggedIn()) {
+        log("Not logged in -> liff.login()");
+        liff.login();
+        return;
+      }
+
+      // id_token を取得して Rails に渡す
+      const idToken = liff.getIDToken();
+      log("Got id_token: " + (idToken ? "yes" : "no"));
+
+      const res = await fetch("/liff/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id_token: idToken })
+      });
+
+      const json = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        log("AUTH ERROR: " + (json.error || res.status));
+        return;
+      }
+
+      log("AUTH OK -> redirect");
+      window.location.href = json.redirect_to || "/";
     } catch (e) {
       log("ERROR: " + (e.message || e));
       console.error(e);

@@ -53,4 +53,5 @@ Rails.application.routes.draw do
   get "/manifest.json"     => "rails/pwa#manifest",       as: :pwa_manifest,       defaults: { format: :json }
 
   get "/liff", to: "liff#show"
+  post "/liff/auth", to: "liff#auth"
 end
