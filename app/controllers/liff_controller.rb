@@ -20,7 +20,7 @@ class LiffController < ApplicationController
     return render json: { ok: false, error: "user not found for this LINE account" }, status: :unauthorized if user.nil?
 
     sign_in(user)
-    render json: { ok: true, redirect_to: root_path }
+    render json: { ok: true, redirect_to: authenticated_root_path }
   rescue JWT::DecodeError, JWT::IncorrectAlgorithm => e
     render json: { ok: false, error: e.message }, status: :unauthorized
   end
