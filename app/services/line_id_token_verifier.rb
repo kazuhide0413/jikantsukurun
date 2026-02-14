@@ -12,7 +12,7 @@ class LineIdTokenVerifier
     jwks = fetch_jwks
 
     options = {
-      algorithms: ["ES256"],   # ← ここを ES256 に
+      algorithms: [ "ES256" ],   # ← ここを ES256 に
       iss: ISSUER,
       verify_iss: true,
       aud: channel_id,

@@ -39,7 +39,7 @@ class Line::SendDailyNotificationJob < ApplicationJob
     now >= notify_at && now < notify_at + WINDOW
   end
 
-# ✅ ここが追加：昨日の結果メッセージ + LIFFリンク
+  # ✅ ここが追加：昨日の結果メッセージ + LIFFリンク
   def build_text_for(user, now)
     yday = (now.to_date - 1)
 
