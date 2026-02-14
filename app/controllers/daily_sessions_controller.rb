@@ -54,6 +54,13 @@ class DailySessionsController < ApplicationController
 
     @sessions_by_date = sessions.index_by(&:session_date)
 
+    # ✅ 背景色用：日付 => 分（integer）
+    @minutes_by_date = {}
+    (start_date..end_date).each do |date|
+      dur = @sessions_by_date[date]&.effective_duration.to_i # 秒（nilなら0）
+      @minutes_by_date[date] = (dur / 60)                    # 分
+    end
+
     data = {}
     (start_date..end_date).each do |date|
       s = @sessions_by_date[date]

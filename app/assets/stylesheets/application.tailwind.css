@@ -10,3 +10,10 @@
 .field_with_errors select {
   width: 100%;
 }
+
+/* === calendar heatmap (green scale) === */
+.eff-bg-0 { background: #ffffff; }                 /* 0分 */
+.eff-bg-1 { background: rgba(134,239,172,.35); }   /* 1〜30分  薄緑 */
+.eff-bg-2 { background: rgba(74,222,128,.45); }    /* 31〜60分 */
+.eff-bg-3 { background: rgba(34,197,94,.55); }     /* 61〜120分 */
+.eff-bg-4 { background: rgba(22,163,74,.75); }     /* 121分以上 濃緑 */
