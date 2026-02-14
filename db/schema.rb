@@ -10,25 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_31_082812) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_14_031243) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "daily_habit_records", force: :cascade do |t|
-    t.bigint "habit_id", null: false
+  create_table "daily_habit_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "habit_id", null: false
     t.date "record_date", null: false
     t.boolean "is_completed", default: false, null: false
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
+    t.uuid "user_id", null: false
     t.index ["habit_id"], name: "index_daily_habit_records_on_habit_id"
     t.index ["user_id", "habit_id", "record_date"], name: "idx_on_user_id_habit_id_record_date_2c762ec563", unique: true
     t.index ["user_id"], name: "index_daily_habit_records_on_user_id"
   end
 
-  create_table "daily_sessions", force: :cascade do |t|
-    t.bigint "user_id", null: false
+  create_table "daily_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
     t.date "session_date", null: false
     t.datetime "return_home_at"
     t.datetime "bedtime_at"
@@ -39,22 +40,22 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_31_082812) do
     t.index ["user_id"], name: "index_daily_sessions_on_user_id"
   end
 
-  create_table "default_habits", force: :cascade do |t|
+  create_table "default_habits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["title"], name: "index_default_habits_on_title", unique: true
   end
 
-  create_table "habits", force: :cascade do |t|
-    t.bigint "user_id"
+  create_table "habits", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id"
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_habits_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

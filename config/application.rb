@@ -38,6 +38,7 @@ module Myapp
       g.skip_routes true
       g.helper false
       g.test_framework nil
+      g.orm :active_record, primary_key_type: :uuid
     end
   end
 end
