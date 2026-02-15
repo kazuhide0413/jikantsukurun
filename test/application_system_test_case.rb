@@ -1,18 +1,18 @@
-require_relative "test_helper"
+# test/application_system_test_case.rb
+require "test_helper"
+require "selenium/webdriver"
 
-# CIでは webdrivers の自動DLが事故るので止める（Actions側でchromedriverを入れる前提）
-if ENV["CI"] == "true"
-  begin
-    require "webdrivers"
-    # 自動更新/自動DLを止める（webdrivers 5系）
-    Webdrivers::Chromedriver.update = false if Webdrivers::Chromedriver.respond_to?(:update=)
-    # 念のためキャッシュも長めに（任意）
-    Webdrivers.cache_time = 86_400 if Webdrivers.respond_to?(:cache_time=)
-  rescue LoadError
-    # webdrivers を読み込めなければ無視
-  end
+# CIでは、Actionsでインストールしたchromedriverを確実に使う
+if ENV["CI"]
+  Selenium::WebDriver::Chrome::Service.driver_path = `which chromedriver`.strip
 end
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :headless_chrome, screen_size: [ 390, 844 ]
+  driven_by :selenium, using: :headless_chrome do |options|
+    # CIでChromeが落ちやすいのを防ぐ定番オプション
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--window-size=1400,1400")
+  end
 end

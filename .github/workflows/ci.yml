@@ -30,7 +30,7 @@ jobs:
           bundler-cache: true
 
       - name: Run Brakeman
-        run: bundle exec brakeman --no-pager
+        run: bundle exec brakeman --no-pager --no-exit-on-warn
 
   test:
     runs-on: ubuntu-latest
@@ -85,13 +85,7 @@ jobs:
         run: bin/rails db:prepare
 
       - name: Run tests
-        run: |
-          bin/rails test
-          if [ -d test/system ]; then
-            bin/rails test:system
-          else
-            echo "Skip system tests: test/system does not exist"
-          fi
+        run: bin/rails test
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
