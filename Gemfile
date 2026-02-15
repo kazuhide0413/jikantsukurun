@@ -81,7 +81,6 @@ group :test do
 
   # Rspec関係
   gem "shoulda-matchers"
-
   gem "warden"
 end
 
