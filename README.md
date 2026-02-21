@@ -33,16 +33,34 @@
 
 ## サービス利用のイメージ（例：帰宅後のサラリーマン）
 
-1. ユーザー登録をします。
-2. 習慣一覧画面へ移動します。
-3. 初期設定で**毎日必ずする習慣**（洗濯、風呂、歯磨き）が登録されています。追加で自分の嫌な習慣も登録可能です。
-4. 働いて家に帰宅したら、習慣一覧画面にある「帰宅」ボタンを押します。
-5. 「帰宅」ボタンを押すと、日々の習慣（毎日必ずする習慣、自分が登録した習慣）が押せるようになります。
-6. 押すと、その習慣の詳細が出てきて、「（その習慣を）やった」ボタンがあるので、やったら押します。
-7. 登録したすべての習慣の「やった」ボタンを押します。
-8. すべての習慣の「やった」ボタンを押すと、「就寝」ボタンが押せるようになるので、就寝するときに押します。
-9. 7.で押された習慣のうち、最も遅く「やった」ボタンが押された時刻と、8.で押された時刻の差分は有効に使える時間だと考えてます。
-10. **無駄な時間を減らせたことにより生まれた有効に使える時間を、カレンダーで見ることができます。**
+### 1. ユーザー登録をします。
+[![Image from Gyazo](https://i.gyazo.com/5e5ec971d4ec5ebb730028a50e8245c4.png)](https://gyazo.com/5e5ec971d4ec5ebb730028a50e8245c4)
+[![Image from Gyazo](https://i.gyazo.com/4d480d061d0ef6e98a3409ce22059ede.png)](https://gyazo.com/4d480d061d0ef6e98a3409ce22059ede)
+[![Image from Gyazo](https://i.gyazo.com/70d9444263e30fdd6b728e60c6228b3a.png)](https://gyazo.com/70d9444263e30fdd6b728e60c6228b3a)
+### 2. 習慣一覧画面へ移動します。
+[![Image from Gyazo](https://i.gyazo.com/ab7d95726c4aa37f64b16439916e5939.png)](https://gyazo.com/ab7d95726c4aa37f64b16439916e5939)
+### 3. 初期設定で**毎日必ずする習慣**（洗濯、風呂、歯磨き）が登録されています。追加で自分の嫌な習慣も登録可能です。
+[![Image from Gyazo](https://i.gyazo.com/ab7d95726c4aa37f64b16439916e5939.png)](https://gyazo.com/ab7d95726c4aa37f64b16439916e5939)
+### 4. 働いて家に帰宅したら、習慣一覧画面にある「帰宅」ボタンを押します。
+[![Image from Gyazo](https://i.gyazo.com/ab7d95726c4aa37f64b16439916e5939.png)](https://gyazo.com/ab7d95726c4aa37f64b16439916e5939)
+[![Image from Gyazo](https://i.gyazo.com/fe86363e2095031aebaa96ea28ebfeb5.png)](https://gyazo.com/fe86363e2095031aebaa96ea28ebfeb5)
+### 5. 「帰宅」ボタンを押すと、日々の習慣（毎日必ずする習慣、自分が登録した習慣）が押せるようになります。
+[![Image from Gyazo](https://i.gyazo.com/fe86363e2095031aebaa96ea28ebfeb5.png)](https://gyazo.com/fe86363e2095031aebaa96ea28ebfeb5)
+### 6. 押すと、その習慣の詳細が出てきて、「（その習慣を）やった」ボタンがあるので、やったら押します。
+[![Image from Gyazo](https://i.gyazo.com/fe86363e2095031aebaa96ea28ebfeb5.png)](https://gyazo.com/fe86363e2095031aebaa96ea28ebfeb5)
+[![Image from Gyazo](https://i.gyazo.com/f7d1a29a388c7b663daa477acb37ba3e.png)](https://gyazo.com/f7d1a29a388c7b663daa477acb37ba3e)
+[![Image from Gyazo](https://i.gyazo.com/e9f45c99fab4f48864df0bb996ba41ef.png)](https://gyazo.com/e9f45c99fab4f48864df0bb996ba41ef)
+### 7. 登録したすべての習慣の「やった」ボタンを押します。
+[![Image from Gyazo](https://i.gyazo.com/830b553543c8172da7143c90ccc5eac6.png)](https://gyazo.com/830b553543c8172da7143c90ccc5eac6)
+### 8. すべての習慣の「やった」ボタンを押すと、「就寝」ボタンが押せるようになるので、就寝するときに押します。
+[![Image from Gyazo](https://i.gyazo.com/830b553543c8172da7143c90ccc5eac6.png)](https://gyazo.com/830b553543c8172da7143c90ccc5eac6)
+### 9. 7.で押された習慣のうち、最も遅く「やった」ボタンが押された時刻と、8.で押された時刻の差分は有効に使える時間だと考えてます。
+[![Image from Gyazo](https://i.gyazo.com/09891fbbdc639e71bcc1f4cca092ea0c.png)](https://gyazo.com/09891fbbdc639e71bcc1f4cca092ea0c)
+### 10. 無駄な時間を減らせたことにより生まれた有効に使える時間を、カレンダーで見ることができます。
+[![Image from Gyazo](https://i.gyazo.com/5e6cfa63d9bbd1df681bae123c51b638.png)](https://gyazo.com/5e6cfa63d9bbd1df681bae123c51b638)
+### 11. LINE通知設定をすれば、前日の有効時間を指定した時間に、通知させることができます。
+[![Image from Gyazo](https://i.gyazo.com/a21f12c494219324458ac92a4336cabb.png)](https://gyazo.com/a21f12c494219324458ac92a4336cabb)
+[![Image from Gyazo](https://i.gyazo.com/a4616e469030d157ee8f1462c5afc923.png)](https://gyazo.com/a4616e469030d157ee8f1462c5afc923)
 
 ## ユーザーの獲得について
 
