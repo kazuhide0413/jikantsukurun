@@ -68,7 +68,7 @@
 3. 継続利用のために  
 本サービスはデフォルトの習慣（洗濯、風呂、歯磨き）を設定して、わざわざ習慣を登録しなくてもよいようにします。<br>
 ログイン完了後すぐに項目を表示し、ボタンワンクリックで習慣を入力し終わります。<br>
-日々の習慣が完了するとカレンダーに色がつき、まるでパズルが埋まっていくような感覚になります。（仮）
+その日の習慣が完了できたらカレンダーに色がつき、有効にできた時間によって色の濃さが変わります。
 
 ## 機能候補
 
@@ -82,15 +82,25 @@
 - 日々の習慣編集機能
 - カレンダーに有効に使えた時間を表示する機能
 
-### 【本リリース実装予定の機能】
+### 【本リリース実装機能】
 
-- パスワードリセット機能
+- 独自ドメイン反映
+- OGP（静的）
+- RSpec(モデルテスト+システムテスト)
+- CI（GitHubActions）
+- Rubocopを使ってのリファクタリング
 - ユーザー登録機能（LINE・google）
 - ログイン機能（LINE・google）
+- パスワードリセット機能
+- オートログイン
+- レスポンシブ対応
+- 利用規約・プライバシーポリシーを未ログイン状態でも確認
+- ローディングアニメーション
+- PWA対応
+- idをuuid表示
 - LIFF機能
-- PWA対応（まるでスマートフォンのアプリのように使えるようにする技術）
-- 前日に達成した習慣を指定した時間に、通知させる機能（LINE）
-- カレンダーパズル機能
+- 前日の有効時間を指定した時間に、通知させる機能（LINE）
+
 #### 検討中
 - i18nによる日本語化対応
 
@@ -100,14 +110,17 @@
 | 機能 / カテゴリ | 技術 |
 | - | - |
 | バックエンド | Ruby on Rails 7.2.2.1 / Ruby 3.2.3 |
-| フロントエンド | JavaScript / Stimulus |
+| フロントエンド | Hotwire（Turbo） / Stimulus / 
+JavaScript |
 | CSS フレームワーク | Tailwind CSS |
 | 環境構築 | Docker |
 | インフラ | Render |
 | データベース | PostgreSQL |
 | 認証機能 | Devise / omniauth-line / omniauth-google-oauth2 |
+| 品質 | RuboCop / Brakeman / 
+GitHub Actions（CI） |
 
-## 画面遷移図
+## 画面遷移図(たたき台)
 
 https://www.figma.com/design/AB77xgxg39nGXgD8SHgSEi/%E6%99%82%E9%96%93%E4%BD%9C%E3%82%8B%E3%82%93?node-id=20-2&p=f&t=4CYouGWBatNeBuBA-0
 
@@ -118,56 +131,64 @@ erDiagram
     direction TB
 
     USERS {
-        int id PK "(NOTNULL)"
+        uuid id PK "(NOTNULL)"
         string name "ユーザー名(NOTNULL)"
         string email "メールアドレス(NOTNULL)"
         string encrypted_password "暗号化済みパスワード(NOTNULL)"
         string reset_password_token
         datetime reset_password_sent_at
         datetime remember_created_at
-        datetime created_at
-        datetime updated_at
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
+        string provider
+        string uid
+        string avatar_url
+        string line_messaging_user_id
+        string line_link_token
+        boolean line_notify_enabled "通知ON/OFF(NOTNULL)"
+        time line_notify_time "通知時刻(NOTNULL)"
+        date line_last_sent_on
     }
 
     HABITS {
-        int id PK "(NOTNULL)"
-        int user_id FK
+        uuid id PK "(NOTNULL)"
+        uuid user_id FK "(NULL可)"
         string title "習慣名(NOTNULL)"
-        datetime created_at
-        datetime updated_at
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
     }
 
     DAILY_HABIT_RECORDS {
-        int id PK "(NOTNULL)"
-        int user_id FK "(NOTNULL)"
-        int habit_id FK "(NOTNULL)"
+        uuid id PK "(NOTNULL)"
+        uuid user_id FK "(NOTNULL)"
+        uuid habit_id FK "(NOTNULL)"
         date record_date "記録日(NOTNULL)"
         boolean is_completed "完了したか(NOTNULL)"
         datetime completed_at "完了時刻"
-        datetime created_at
-        datetime updated_at
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
     }
 
     DAILY_SESSIONS {
-        int id PK "(NOTNULL)"
-        int user_id FK "(NOTNULL)"
+        uuid id PK "(NOTNULL)"
+        uuid user_id FK "(NOTNULL)"
         date session_date "セッション日付(NOTNULL)"
         datetime return_home_at "帰宅時刻"
         datetime bedtime_at "就寝時刻"
-        int effective_duration "有効時間(分単位)"
-        datetime created_at
-        datetime updated_at
+        int effective_duration "有効時間(分)"
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
     }
 
     DEFAULT_HABITS {
-        int id PK "(NOTNULL)"
+        uuid id PK "(NOTNULL)"
         string title "共通デフォルト習慣名(NOTNULL)"
-        datetime created_at
-        datetime updated_at
+        datetime created_at "作成日時(NOTNULL)"
+        datetime updated_at "更新日時(NOTNULL)"
     }
 
-    USERS ||--o{ HABITS : ""
-    USERS ||--o{ DAILY_HABIT_RECORDS : ""
-    USERS ||--o{ DAILY_SESSIONS : ""
-    HABITS ||--o{ DAILY_HABIT_RECORDS : ""
+    USERS ||--o{ HABITS : "has many"
+    USERS ||--o{ DAILY_HABIT_RECORDS : "has many"
+    USERS ||--o{ DAILY_SESSIONS : "has many"
+    HABITS ||--o{ DAILY_HABIT_RECORDS : "has many"
 ```
