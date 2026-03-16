@@ -85,7 +85,7 @@ group :test do
 end
 
 # tailwind導入
-gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwindcss-ruby", "~> 4.2"
 gem "tailwindcss-rails", "~> 4.3"
 
 # devise導入
